@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\include\controls.cpp" />
+    <ClCompile Include="..\src\camera.cpp" />
+    <ClCompile Include="..\src\entity.cpp" />
+    <ClCompile Include="..\src\gametest3d.c" />
+    <ClCompile Include="..\src\graphics3d.c" />
+    <ClCompile Include="..\src\hud.cpp" />
+    <ClCompile Include="..\src\mesh.cpp" />
+    <ClCompile Include="..\src\shader.c" />
+    <ClCompile Include="..\src\simple_logger.c" />
+    <ClCompile Include="..\src\UIPopup.cpp" />
+    <ClCompile Include="loadobj.cpp" />
+    <ClCompile Include="testmesh.cpp" />
+    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="vector.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\controls.h" />
+    <ClInclude Include="..\include\graphics3d.h" />
+    <ClInclude Include="..\include\hud.h" />
+    <ClInclude Include="..\include\mesh.h" />
+    <ClInclude Include="..\include\test.h" />
+    <ClInclude Include="..\include\shader.h" />
+    <ClInclude Include="..\include\simple_logger.h" />
+    <ClInclude Include="..\include\Test2.h" />
+    <ClInclude Include="..\include\UIPopup.h" />
+    <ClInclude Include="..\src\camera.h" />
+    <ClInclude Include="..\src\entity.h" />
+    <ClInclude Include="matrix.h" />
+    <ClInclude Include="loadobj.h" />
+    <ClInclude Include="testmesh.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shaders\fs1.glsl" />
+    <None Include="..\shaders\fs1_hud.glsl" />
+    <None Include="..\shaders\vs1.glsl" />
+    <None Include="..\shaders\vs1_hud.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\bullet_build\src\BulletCollision\BulletCollision.vcxproj">
+      <Project>{6a148350-4d71-3955-bc08-065aa5bc9655}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\bullet_build\src\BulletDynamics\BulletDynamics.vcxproj">
+      <Project>{0f841f82-6083-3f47-8540-6c2b7dfe37b4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\bullet_build\src\LinearMath\LinearMath.vcxproj">
+      <Project>{4772ca0d-41c2-3ad1-934a-2365a9557056}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C8351047-707B-4D68-A801-6749E9509337}</ProjectGuid>
+    <RootNamespace>gametest3d</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\Jacob\IT485_2\myproject\include;C:\Users\Jacob\IT485_2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jacob\IT485_2\lib\x86;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\..</OutDir>
+    <IntDir>$(ProjectDir)\..</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>C:\Users\Jacob\libtest\bullet3-2.86.1\src;C:\Users\Jacob\bullet_build\src;C:\Users\Jacob\IT485\include;C:\Users\Jacob\IT485\myproject\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib;glew32s.lib;freeglut.lib;freetype271d.lib;assimp-vc140-mt.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Jacob\IT485\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
