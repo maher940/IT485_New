@@ -32,13 +32,22 @@
 #include "SDL.h"
 #include <glm\gtx\string_cast.hpp>
 #include "hud.h"
+#include <GL\glut.h>
+#include <GL\freeglut.h>
+#include "jansson.h"
+#include "resourcemanager.h"
+#include "player.h"
 GLuint VBO;
 GLuint VAO;
 GLuint EBO;
 
 GLuint vao;
-GLuint vertexbuffer;
-GLuint IndexVBO;
+//GLuint vertexbuffer;
+//GLuint IndexVBO;
+
+
+extern int entityMax;
+
 
 
 //GLuint TextureID;
@@ -61,7 +70,7 @@ GLuint triangleBufferObject;
 int main(int argc, char *argv[])
 {
 
-
+	glutInit(&argc, argv);
 	int hudon = 0;
 	
 
@@ -143,26 +152,39 @@ int main(int argc, char *argv[])
 
 
 
-	glGenBuffers(1, &IndexVBO);
-	glGenBuffers(1, &vertexbuffer);
-	//glGenBuffers(1, &HUD_Vertex_buf);
-	//glGenBuffers(1, &HUD_UV_buf);
-/*
+	//glGenBuffers(1, &IndexVBO);
+	//glGenBuffers(1, &vertexbuffer);
 	
-	/*
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao); //make our vertex array object, we need it to restore state we set after binding it. Re-binding reloads the state associated with it.
+	//Mesh mesh;
 
-	glGenBuffers(1, &triangleBufferObject); //create the buffer
-	glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //we're "using" this one now
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW); //formatting the data for the buffer
-	glBindBuffer(GL_ARRAY_BUFFER, 0); //unbind any buffers
-	*/
-	//slog("glError: %s", glGetError());
-	Mesh mesh;
-	mesh.Load_Obj("cube.obj");
+	//Mesh mesh2;
+
+	//mesh.Load_Obj("cube.obj");
+
+	//mesh2.Load_Obj("monkey.obj");
+
+	Manager *manager = getmanager();
 
 
+	Entity_Init();
+
+	Player_Struct player;
+
+	player.ent = Entity_New("monkey.obj", glm::vec3(0, 0, 0));
+
+	//Entity_New("cube.obj", glm::vec3(0, 0, 0));
+
+	//Entity_New("monkey.obj", glm::vec3(0, 0, 0));
+
+
+	player.health = health;
+
+	player.mana = mana;
+
+	player.experience = experience;
+
+
+	//Player_Health(&player, 10);
 
 	HUD hud;
 
@@ -171,36 +193,7 @@ int main(int argc, char *argv[])
 
 	hud.TextureLoad();
 
-	//hud.TextrueSetUp();
-
 	
-
-	//TextureID = glGetUniformLocation(graphics3d_get_shader_program2(), "myText");
-
-
-
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, image);
-
-	//glUniform1i(TextureID, 0);
-
-	//Camera cam(glm::vec3(0,0,1), glm::radians(45.0f), 4/3, 0.1f, 1000.0f);
-
-	
-	//Projection = cam.Projection;
-
-
-	//View = cam.getView();
-
-	//Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
-
-	//View = glm::lookAt(glm::vec3(4, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-
-
-	
-	//View = cam.getViewMatrix();
-
-	//Projection = cam.getProjectionMatrix();
 
 
 	int x;
@@ -280,16 +273,32 @@ int main(int argc, char *argv[])
 			cam.cameraMovement('S');
 			//printf("TEST \n");
 		}
-		if (state[SDL_SCANCODE_P])
+	
+
+
+		if (state[SDL_SCANCODE_U])
 		{
-			
+
 			//printf("TEST \n");
+			//health = health + 10;
+			Player_Health(&player, -10);
 		}
-
-
-		
 			
-		
+		if (state[SDL_SCANCODE_I])
+		{
+
+			//printf("TEST \n");
+			//health = health + 10;
+			Player_Mana(&player, -10);
+		}
+		if (state[SDL_SCANCODE_O])
+		{
+
+			//printf("TEST \n");
+			//health = health + 10;
+			Player_Exp(&player, 10);
+
+		}
 		//View = cam.getViewMatrix();
 		//Projection = cam.getProjectionMatrix();
 
@@ -361,10 +370,14 @@ int main(int argc, char *argv[])
 		glUseProgram(graphics3d_get_shader_program());
 
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-		mesh.Draw_Mesh();
-
+		//mesh.Draw_Mesh();
+		//mesh2.Draw_Mesh();
 		//hud.Draw_HUD();
 
+	
+
+
+		Entity_DrawAll();
 
 		if (hudon % 2 != 0)
 		{
@@ -405,8 +418,22 @@ int main(int argc, char *argv[])
 		glLoadIdentity();
 
 
-		drawhud(health, mana, experience);
-		drawstats(health, experience, mana);
+		drawhud(player.health, player.mana, player.experience);
+
+		if (hudon % 2) {
+			drawstats(player.health, player.experience, player.mana, player.level, player.skillpoints);
+		}
+
+
+		if (player.experience >= 100)
+		{
+			slog("Player Leveled");
+			player.level++;
+			player.skillpoints++;
+			player.experience = 0;
+
+		}
+
 
 
 		//switch back to Perspective

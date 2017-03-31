@@ -14,10 +14,14 @@
     <ClCompile Include="..\include\controls.cpp" />
     <ClCompile Include="..\src\camera.cpp" />
     <ClCompile Include="..\src\entity.cpp" />
+    <ClCompile Include="..\src\entityc.cpp" />
     <ClCompile Include="..\src\gametest3d.c" />
     <ClCompile Include="..\src\graphics3d.c" />
     <ClCompile Include="..\src\hud.cpp" />
+    <ClCompile Include="..\src\jansson.cpp" />
     <ClCompile Include="..\src\mesh.cpp" />
+    <ClCompile Include="..\src\player.cpp" />
+    <ClCompile Include="..\src\resourcemanager.cpp" />
     <ClCompile Include="..\src\shader.c" />
     <ClCompile Include="..\src\simple_logger.c" />
     <ClCompile Include="..\src\UIPopup.cpp" />
@@ -28,16 +32,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\controls.h" />
+    <ClInclude Include="..\include\entity.h" />
+    <ClInclude Include="..\include\entityc.h" />
     <ClInclude Include="..\include\graphics3d.h" />
     <ClInclude Include="..\include\hud.h" />
+    <ClInclude Include="..\include\jasson.h" />
     <ClInclude Include="..\include\mesh.h" />
+    <ClInclude Include="..\include\player.h" />
+    <ClInclude Include="..\include\resourcemanager.h" />
     <ClInclude Include="..\include\test.h" />
     <ClInclude Include="..\include\shader.h" />
     <ClInclude Include="..\include\simple_logger.h" />
     <ClInclude Include="..\include\Test2.h" />
     <ClInclude Include="..\include\UIPopup.h" />
     <ClInclude Include="..\src\camera.h" />
-    <ClInclude Include="..\src\entity.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="loadobj.h" />
     <ClInclude Include="testmesh.h" />
@@ -107,7 +115,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib;glew32s.lib;freeglut.lib;freetype271d.lib;assimp-vc140-mt.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib;glew32s.lib;freeglut.lib;freetype271d.lib;assimp-vc140-mt.lib;SOIL.lib;jansson.lib;jansson_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Jacob\IT485\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

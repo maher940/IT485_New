@@ -2,8 +2,8 @@
 #include <list>
 #include <algorithm>
 extern GLuint vao;
-extern GLuint vertexbuffer;
-extern GLuint IndexVBO;
+GLuint vertexbuffer;
+GLuint IndexVBO;
 extern GLuint triangleBufferObject;
 bool Iarray::operator==(const Iarray &other)
 {
@@ -277,6 +277,8 @@ bool Mesh::Load_Obj(const char * path)
 
 	indices = Indices;
 	fclose(file);
+	glGenBuffers(1, &IndexVBO);
+	glGenBuffers(1, &vertexbuffer);
 	return true;
 
 }
