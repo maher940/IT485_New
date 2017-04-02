@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\include\controls.cpp" />
+    <ClCompile Include="..\src\button.cpp" />
     <ClCompile Include="..\src\camera.cpp" />
     <ClCompile Include="..\src\entity.cpp" />
     <ClCompile Include="..\src\entityc.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\button.h" />
     <ClInclude Include="..\include\controls.h" />
     <ClInclude Include="..\include\entity.h" />
     <ClInclude Include="..\include\entityc.h" />
@@ -54,8 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shaders\fs1.glsl" />
+    <None Include="..\shaders\fs1_buttons.glsl" />
     <None Include="..\shaders\fs1_hud.glsl" />
     <None Include="..\shaders\vs1.glsl" />
+    <None Include="..\shaders\vs1_buttons.glsl" />
     <None Include="..\shaders\vs1_hud.glsl" />
   </ItemGroup>
   <ItemGroup>

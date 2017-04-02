@@ -37,6 +37,8 @@
 #include "jansson.h"
 #include "resourcemanager.h"
 #include "player.h"
+
+#include "button.h"
 GLuint VBO;
 GLuint VAO;
 GLuint EBO;
@@ -74,7 +76,9 @@ int main(int argc, char *argv[])
 	int hudon = 0;
 	
 
+	bool clicked = false;
 
+	bool held = false;
 
 	health = 100;
 
@@ -194,7 +198,13 @@ int main(int argc, char *argv[])
 	hud.TextureLoad();
 
 	
+	Button button;
 
+	button.Button_Setup(glm::vec3(0.325f, 0.01f, 0.0f), glm::vec3(0.3f, -0.1f, 0.0f), glm::vec3(0.35f, -0.1f, 0.0f));
+
+	Button button2;
+
+	button2.Button_Setup(glm::vec3(-0.325f, 0.01f, 0.0f), glm::vec3(-0.3f, -0.1f, 0.0f), glm::vec3(-0.35f, -0.1f, 0.0f));
 
 	int x;
 	int y;
@@ -209,7 +219,7 @@ int main(int argc, char *argv[])
 
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-
+	
 	
 
 
@@ -217,7 +227,7 @@ int main(int argc, char *argv[])
 	while (bGameLoopRunning)
 	{
 
-
+		clicked = false;
 
 		if (SDL_PollEvent(&e))
 		{
@@ -228,7 +238,18 @@ int main(int argc, char *argv[])
 
 			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_TAB)
 				hudon++;
-			
+			else if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
+			{
+				if (held == false)
+				{
+					clicked = true;
+				}
+
+				held = true;
+			}
+
+			else if (e.type == SDL_MOUSEBUTTONUP)
+				held = false;
 		}
 
 		glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -246,6 +267,13 @@ int main(int argc, char *argv[])
 
 		
 		SDL_GetMouseState(&x, &y);
+
+		if (state[SDL_SCANCODE_L])
+		{
+			printf("x %d \n", x);
+
+			printf("y %d \n", y);
+		}
 
 		cam.cameraRotation(x, y);
 
@@ -385,6 +413,21 @@ int main(int argc, char *argv[])
 		
 			hud.Draw_HUD();
 			
+			glUseProgram(graphics3d_get_shader_program3());
+
+			button.Button_Draw();
+
+			button2.Button_Draw();
+
+			if (x >= 666 && x <= 699 && y >= 379 && y <= 420)
+			{
+				//printf("YOUclicked");
+				if (clicked == true)
+				{
+					printf("YOUclicked \n");
+				}
+
+			}
 			
 		}
 

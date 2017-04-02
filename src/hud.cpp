@@ -10,6 +10,7 @@ GLuint Texture;
 GLuint TextureID;
 
 
+
 //extern SDL_Surface *image;
 int width, height;
 unsigned char* image;
@@ -139,74 +140,3 @@ void HUD::TextureSetUp()
 }
 
 
-/*
-void HUD::TextrueSetUp()
-{
-
-
-	/*
-	
-	//printf("INhere");
-
-	GLuint TextureID = glGetUniformLocation(graphics3d_get_shader_program2(), "myText");
-	
-	GLuint texture;
-
-	glGenTextures(1, &texture);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	int T_WIDTH, T_HEIGHT;
-	unsigned char* image = SOIL_load_image("Frame.png", &T_WIDTH, &T_HEIGHT, 0, SOIL_LOAD_RGB);
-
-	if (!image) {
-		std::cout << "Failed to load texture: " << sizeof(image) << std::endl;
-	}
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, T_WIDTH, T_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	SOIL_free_image_data(image);
-
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-
-	
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	
-
-	glUniform1i(TextureID, 0);
-
-
-
-
-
-	/*
-	image = SOIL_load_image("Frame.png", &width, &height, 0, SOIL_LOAD_RGB);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-
-	SOIL_free_image_data(image);
-
-	glUniform1i(glGetUniformLocation(graphics3d_get_shader_program2(), "myText"));
-	
-	*/
-
-	
-
-
-
-	//GLuint Texture = 
-
-
-
-
-//}

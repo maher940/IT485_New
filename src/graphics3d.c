@@ -6,6 +6,7 @@ static SDL_GLContext __graphics3d_gl_context;
 static SDL_Window  * __graphics3d_window = NULL;
 static GLuint        __graphics3d_shader_program;
 static GLuint        __graphics3d_shader_program2;
+static GLuint        __graphics3d_shader_program3;
 static Uint32        __graphics3d_frame_delay = 33;
 void graphics3d_close();
 
@@ -18,6 +19,11 @@ GLuint graphics3d_get_shader_program()
 GLuint graphics3d_get_shader_program2()
 {
 	return __graphics3d_shader_program2;
+}
+
+GLuint graphics3d_get_shader_program3()
+{
+	return __graphics3d_shader_program3;
 }
 
 void graphics3d_next_frame()
@@ -112,7 +118,14 @@ int graphics3d_init(int sw,int sh,int fullscreen,const char *project,Uint32 fram
 
 	slog("Using program %d", __graphics3d_shader_program2);
 
+	__graphics3d_shader_program3 = BuildShaderProgram("shaders/vs1_buttons.glsl", "shaders/fs1_buttons.glsl");
+	if (__graphics3d_shader_program3 == -1)
+	{
+		slog("Error: failed to create shader program");
+		return -1;
+	}
 
+	slog("Using program %d", __graphics3d_shader_program3);
 
 
 

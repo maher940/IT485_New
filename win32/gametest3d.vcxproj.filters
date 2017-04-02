@@ -72,6 +72,9 @@
     <ClCompile Include="..\src\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\graphics3d.h">
@@ -134,6 +137,9 @@
     <ClInclude Include="..\include\player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shaders\fs1.glsl">
@@ -146,6 +152,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\shaders\vs1_hud.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\shaders\fs1_buttons.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\shaders\vs1_buttons.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

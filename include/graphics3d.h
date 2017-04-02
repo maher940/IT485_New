@@ -43,6 +43,8 @@ int graphics3d_init(int sw,int sh,int fullscreen,const char *project, Uint32 fra
 GLuint graphics3d_get_shader_program();
 
 GLuint graphics3d_get_shader_program2();
+
+GLuint graphics3d_get_shader_program3();
 /**
  * @brief advance the frame, taking into account desired frame rate
  */
