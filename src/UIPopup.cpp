@@ -24,18 +24,36 @@
 
 
 
-void drawstats(int health, float exp, int mana, int level, int skillstats)
+void drawstats(int health, float exp, int mana, int level, int skillstats, int strength, int speed, int arcane)
 {
 
 
 
 	
 	glColor3f(1, 0, 0);
+
+
+	std::string levelstring = "Level: " + std::to_string(level);
+	glWindowPos2i(300, 550);
+	int len4 = levelstring.length();
+
+	for (int i = 0; i < len4; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, levelstring[i]);
+	}
+
+	std::string skillstring = "Skill points to spend: " + std::to_string(skillstats);
+	glWindowPos2i(300, 500);
+	int len5 = skillstring.length();
+
+	for (int i = 0; i < len5; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, skillstring[i]);
+	}
+
 	std::string healthstring = "Total Health: " + std::to_string(health);
 
 
 
-	glWindowPos2i(300, 500);
+	glWindowPos2i(300, 450);
 	//len = (int)strlen(text);
 	int len = healthstring.length();
 
@@ -46,7 +64,7 @@ void drawstats(int health, float exp, int mana, int level, int skillstats)
 
 	std::string manastring = "Total Mana: " + std::to_string(mana);
 
-	glWindowPos2i(300, 450);
+	glWindowPos2i(300, 400);
 	int len2 = manastring.length();
 
 
@@ -54,30 +72,36 @@ void drawstats(int health, float exp, int mana, int level, int skillstats)
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, manastring[i]);
 	}
 
-	std::string expstring = "Total Exp: " + std::to_string(exp);
-	glWindowPos2i(300, 400);
+	std::string expstring = "Exp: " + std::to_string(exp);
+	glWindowPos2i(300, 350);
 	int len3 = expstring.length();
 
 	for (int i = 0; i < len3; i++) {
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, expstring[i]);
 	}
 
-
-	std::string levelstring = "Level: " + std::to_string(level);
-	glWindowPos2i(300, 350);
-	int len4 = levelstring.length();
-
-	for (int i = 0; i < len4; i++) {
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, levelstring[i]);
-	}
-
-	std::string skillstring = "Skill points to spend: " + std::to_string(skillstats);
+	std::string strstring = "Strength: " + std::to_string(strength);
 	glWindowPos2i(300, 300);
-	int len5 = skillstring.length();
+	int len6 = strstring.length();
 
-	for (int i = 0; i < len5; i++) {
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, skillstring[i]);
+	for (int i = 0; i < len6; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, strstring[i]);
 	}
+	std::string spdstring = "Speed: " + std::to_string(speed);
+	glWindowPos2i(300, 250);
+	int len7 = spdstring.length();
+
+	for (int i = 0; i < len7; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, spdstring[i]);
+	}
+	std::string arcstring = "Arcane: " + std::to_string(arcane);
+	glWindowPos2i(300, 200);
+	int len8 = arcstring.length();
+
+	for (int i = 0; i < len8; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, arcstring[i]);
+	}
+	
 
 
 }

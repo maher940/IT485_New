@@ -3,7 +3,7 @@
 
 
 
-void drawstats(int health, float exp, int mana, int level, int skillpoints);
+void drawstats(int health, float exp, int mana, int level, int skillpoints, int strength, int speed, int arcane);
 
 void deletestats();
 

@@ -181,11 +181,11 @@ int main(int argc, char *argv[])
 	//Entity_New("monkey.obj", glm::vec3(0, 0, 0));
 
 
-	player.health = health;
+	//player.health = health;
 
-	player.mana = mana;
+	//player.mana = mana;
 
-	player.experience = experience;
+	//player.experience = experience;
 
 
 	//Player_Health(&player, 10);
@@ -200,11 +200,31 @@ int main(int argc, char *argv[])
 	
 	Button button;
 
-	button.Button_Setup(glm::vec3(0.325f, 0.01f, 0.0f), glm::vec3(0.3f, -0.1f, 0.0f), glm::vec3(0.35f, -0.1f, 0.0f));
+	//button.Button_Setup(glm::vec3(0.35f, 0.01f, 0.0f), glm::vec3(0.3f, 0.01f, 0.0f), glm::vec3(0.3f, -0.1f, 0.0f), glm::vec3(0.35f, -0.1f, 0.0f));
+
+
+	button.Button_Setup(glm::vec3(-0.1f, 0.09, 0.0f), glm::vec3(-0.04, 0.09, 0.0f), glm::vec3(-0.1, 0.03, 0.0f), glm::vec3(-0.04, 0.03, 0.0f));
+	
 
 	Button button2;
 
-	button2.Button_Setup(glm::vec3(-0.325f, 0.01f, 0.0f), glm::vec3(-0.3f, -0.1f, 0.0f), glm::vec3(-0.35f, -0.1f, 0.0f));
+	button2.Button_Setup(glm::vec3(-0.1f, 0.22, 0.0f), glm::vec3(-0.04, 0.22, 0.0f), glm::vec3(-0.1, 0.16, 0.0f), glm::vec3(-0.04, 0.16, 0.0f));
+
+	//Button button3;
+
+	//button3.Button_Setup(glm::vec3(-0.1f, -0.04, 0.0f), glm::vec3(-0.04, -0.04, 0.0f), glm::vec3(-0.1, -0.1, 0.0f), glm::vec3(-0.04, -0.1, 0.0f));
+
+	Button button4;
+
+	button4.Button_Setup(glm::vec3(-0.1f, -0.17, 0.0f), glm::vec3(-0.04, -0.17, 0.0f), glm::vec3(-0.1, -0.23, 0.0f), glm::vec3(-0.04, -0.23, 0.0f));
+	
+	Button button5;
+
+	button5.Button_Setup(glm::vec3(-0.1f, -0.3, 0.0f), glm::vec3(-0.04, -0.3, 0.0f), glm::vec3(-0.1, -0.36, 0.0f), glm::vec3(-0.04, -0.36, 0.0f));
+
+	Button button6;
+
+	button6.Button_Setup(glm::vec3(-0.1f, -0.43, 0.0f), glm::vec3(-0.04, -0.43, 0.0f), glm::vec3(-0.1, -0.49, 0.0f), glm::vec3(-0.04, -0.49, 0.0f));
 
 	int x;
 	int y;
@@ -415,19 +435,76 @@ int main(int argc, char *argv[])
 			
 			glUseProgram(graphics3d_get_shader_program3());
 
-			button.Button_Draw();
 
-			button2.Button_Draw();
-
-			if (x >= 666 && x <= 699 && y >= 379 && y <= 420)
+			if (player.skillpoints >= 1)
 			{
-				//printf("YOUclicked");
-				if (clicked == true)
-				{
-					printf("YOUclicked \n");
-				}
+				button.Button_Draw();
 
+				button2.Button_Draw();
+
+				button4.Button_Draw();
+
+				button5.Button_Draw();
+
+				button6.Button_Draw();
+
+
+
+				if (x >= 461 && x <= 492)
+				{
+
+					if (y >= 299 && y <= 322)
+					{
+						if (clicked == true)
+						{
+							//printf("Health \n");
+							player.TotalHealth = player.TotalHealth + 10;
+							player.skillpoints--;
+						}
+					}
+					if (y >= 348 && y <= 373)
+					{
+						if (clicked == true)
+						{
+							//printf("Mana \n");
+							player.TotalMana = player.TotalMana + 10;
+							player.skillpoints--;
+						}
+					}
+
+					if (y >= 449 && y <= 472)
+					{
+						if (clicked == true)
+						{
+							//printf("Str \n");
+							player.strength++;
+							player.skillpoints--;
+						}
+					}
+
+					if (y >= 498 && y <= 520)
+					{
+						if (clicked == true)
+						{
+							//printf("Spd \n");
+							player.speed++;
+							player.skillpoints--;
+						}
+					}
+				
+					if (y >= 549 && y <= 571)
+					{
+						if (clicked == true)
+						{
+							//printf("Arc \n");
+							player.arcane++;
+							player.skillpoints--;
+						}
+					}
+				}
 			}
+
+			
 			
 		}
 
@@ -464,7 +541,7 @@ int main(int argc, char *argv[])
 		drawhud(player.health, player.mana, player.experience);
 
 		if (hudon % 2) {
-			drawstats(player.health, player.experience, player.mana, player.level, player.skillpoints);
+			drawstats(player.TotalHealth, player.experience, player.TotalMana, player.level, player.skillpoints, player.strength, player.speed, player.arcane);
 		}
 
 

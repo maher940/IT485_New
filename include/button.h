@@ -20,7 +20,7 @@ public:
 	std::vector<glm::vec3> Button_Verts;
 	std::vector<glm::vec3> Button_UVs;
 	Button();
-	void Button_Setup(glm::vec3 Top, glm::vec3 BotRight, glm::vec3 BotLeft);
+	void Button_Setup(glm::vec3 TopRight, glm::vec3 TopLeft, glm::vec3 BotRight, glm::vec3 BotLeft);
 
 	void Button_Draw();
 

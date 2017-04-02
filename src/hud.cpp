@@ -100,10 +100,10 @@ void HUD::Set_HUD_Points()
 {
 
 	
-	HUD_Verts.push_back(glm::vec3(0.5, 0.5, 0));
-	HUD_Verts.push_back(glm::vec3(0.5, -0.5, 0));
-	HUD_Verts.push_back(glm::vec3(-0.5, -0.5, 0));
-	HUD_Verts.push_back(glm::vec3(-0.5, 0.5, 0));
+	HUD_Verts.push_back(glm::vec3(0.6, 0.6, 0));
+	HUD_Verts.push_back(glm::vec3(0.6, -0.6, 0));
+	HUD_Verts.push_back(glm::vec3(-0.6, -0.6, 0));
+	HUD_Verts.push_back(glm::vec3(-0.6, 0.6, 0));
 	
 	
 	HUD_UVs.push_back(glm::vec2(1, 1));

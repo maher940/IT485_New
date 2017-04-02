@@ -14,11 +14,21 @@ typedef struct
 
 	int mana = 100;
 
-	int level = 0;
+	int TotalHealth = 100;
+
+	int TotalMana = 100;
+
+	int level = 1;
 	
 	int skillpoints = 0;
 
 	float experience = 0;
+
+	int strength = 1;
+
+	int speed = 1;
+
+	int arcane = 1;
 
 
 }Player_Struct;
