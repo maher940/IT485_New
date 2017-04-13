@@ -1,4 +1,5 @@
 #include "entity.h"
+#include "graphics3d.h"
 
 Entity_Struct* entityList;
 int numentities;
@@ -19,6 +20,11 @@ void Entity_Update(Entity_Struct *ent)
 
 void Entity_Draw(Entity_Struct *ent)
 {
+
+
+	GLuint Model = glGetUniformLocation(graphics3d_get_shader_program(), "Model");
+
+	glUniformMatrix4fv(Model, 1, GL_FALSE, &ent->Model[0][0]);
 
 	ent->mesh.Draw_Mesh();
 	

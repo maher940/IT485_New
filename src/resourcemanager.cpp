@@ -34,6 +34,18 @@ void Entity_Init()
 	atexit(Entity_Close);
 }
 
+void Entity_Free(Entity_Struct *ent)
+{
+
+	//manager.entityList[ent->entity_num];
+	if (&manager.entityList[ent->entity_num] == NULL)
+	{
+		slog("Entity does not exist");
+	}
+	memset(&manager.entityList[ent->entity_num], 0, sizeof(Entity_Struct));
+	slog("Entity Freed");
+}
+
 void Entity_Close()
 {
 	if (!manager.entityList)
@@ -74,6 +86,7 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position)
 		}
 
 		else {
+
 			memset(&manager.entityList[i], 0, sizeof(Entity_Struct));
 			slog("Entity added");
 
@@ -91,6 +104,9 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position)
 			manager.entityList[i].entity_num = i;
 
 			manager.entityList[i].position = position;
+
+			manager.entityList[i].Model = glm::translate(glm::mat4(), position);
+		
 			break;
 		}
 	}
@@ -123,6 +139,7 @@ void Entity_DrawAll()
 
 		Entity_Draw(&manager.entityList[i]);
 
+		//glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &vp[0][0]);
 		
 	}
 	

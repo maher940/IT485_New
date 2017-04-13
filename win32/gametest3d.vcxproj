@@ -21,10 +21,14 @@
     <ClCompile Include="..\src\hud.cpp" />
     <ClCompile Include="..\src\jansson.cpp" />
     <ClCompile Include="..\src\mesh.cpp" />
+    <ClCompile Include="..\src\modular_piece.cpp" />
+    <ClCompile Include="..\src\physics.cpp" />
     <ClCompile Include="..\src\player.cpp" />
     <ClCompile Include="..\src\resourcemanager.cpp" />
+    <ClCompile Include="..\src\scene.cpp" />
     <ClCompile Include="..\src\shader.c" />
     <ClCompile Include="..\src\simple_logger.c" />
+    <ClCompile Include="..\src\testload.cpp" />
     <ClCompile Include="..\src\UIPopup.cpp" />
     <ClCompile Include="loadobj.cpp" />
     <ClCompile Include="testmesh.cpp" />
@@ -40,12 +44,16 @@
     <ClInclude Include="..\include\hud.h" />
     <ClInclude Include="..\include\jasson.h" />
     <ClInclude Include="..\include\mesh.h" />
+    <ClInclude Include="..\include\modular_piece.h" />
+    <ClInclude Include="..\include\physics.h" />
     <ClInclude Include="..\include\player.h" />
     <ClInclude Include="..\include\resourcemanager.h" />
+    <ClInclude Include="..\include\scene.h" />
     <ClInclude Include="..\include\test.h" />
     <ClInclude Include="..\include\shader.h" />
     <ClInclude Include="..\include\simple_logger.h" />
     <ClInclude Include="..\include\Test2.h" />
+    <ClInclude Include="..\include\testload.h" />
     <ClInclude Include="..\include\UIPopup.h" />
     <ClInclude Include="..\src\camera.h" />
     <ClInclude Include="matrix.h" />
@@ -115,6 +123,7 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalIncludeDirectories>C:\Users\Jacob\libtest\bullet3-2.86.1\src;C:\Users\Jacob\bullet_build\src;C:\Users\Jacob\IT485\include;C:\Users\Jacob\IT485\myproject\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -1,10 +1,13 @@
 #include "mesh.h"
 #include <list>
 #include <algorithm>
+#include "SOIL.h"
 extern GLuint vao;
 GLuint vertexbuffer;
+GLuint UVbuffer;
 GLuint IndexVBO;
 extern GLuint triangleBufferObject;
+GLuint TextureMesh;
 bool Iarray::operator==(const Iarray &other)
 {
 	return (this->x == other.x && this->y == other.y && this->z == other.z);
@@ -295,6 +298,15 @@ void Mesh::Draw_Mesh()
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, vertices2.size() * sizeof(Vertex), &vertices2[0], GL_STATIC_DRAW);
 
+	//glBindBuffer(GL_ARRAY_BUFFER, HUD_UV_buf);
+
+
+	//glBufferData(GL_ARRAY_BUFFER, HUD_UVs.size() * sizeof(glm::vec2), &HUD_UVs[0], GL_STATIC_DRAW);
+
+
+	//glBindBuffer(GL_ARRAY_BUFFER, UVbuffer);
+
+	//glBufferData(GL_ARRAY_BUFFER, vertices2.size() * sizeof(Vertex), &vertices2[1], GL_STATIC_DRAW);
 
 	
 	glEnableVertexAttribArray(0); 
@@ -303,45 +315,25 @@ void Mesh::Draw_Mesh()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexVBO);
 	
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*)0);
-	//printf ("offsetof(struct foo,a) is %d\n",(int)offsetof(struct foo,a));
-
-	//skip size of struct
-	//last one is offset 
 	
-
-
-
-
-/*
-	const float triangleVertices[] = {
-		0.0f, 0.5f, 0.0f, 1.0f,
-		0.5f, -0.366f, 0.0f, 1.0f,
-		-0.5f, -0.366f, 0.0f, 1.0f,
-		//next part contains vertex colors
-		1.0f, 0.0f, 0.0f, 1.0f,
-		0.0f, 1.0f, 0.0f, 1.0f,
-		0.0f, 0.0f, 1.0f, 1.0f
-	}; //we love you vertices!
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-
-
-	glGenBuffers(1, &triangleBufferObject); //create the buffer
-	glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //we're "using" this one now
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW); //formatting the data for the buffer
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //bind the buffer we're applying attributes to
-	glEnableVertexAttribArray(0); //0 is our index, refer to "location = 0" in the vertex shader
-	glEnableVertexAttribArray(1); //attribute 1 is for vertex color data
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0); //tell gl (shader!) how to interpret our vertex data
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)48); //color data is 48 bytes in to the array
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
 	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
 
-	*/
+}
+
+void Mesh::TextureLoad()
+{
+
+
+	TextureMesh = SOIL_load_OGL_texture // load an image file directly as a new OpenGL texture
+	(
+		"bricks.jpg",
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+	);
+
+	glBindTexture(GL_TEXTURE_2D, TextureMesh);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 }

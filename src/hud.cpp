@@ -36,6 +36,7 @@ void HUD::Draw_HUD()
 
 	glBufferData(GL_ARRAY_BUFFER, HUD_UVs.size() * sizeof(glm::vec2), &HUD_UVs[0], GL_STATIC_DRAW);
 
+
 	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, HUD_Vertex_buf);
@@ -54,6 +55,10 @@ void HUD::Draw_HUD()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, HUD_Index_buf);
 
 	glDrawElements(GL_TRIANGLES, HUD_Indices.size(), GL_UNSIGNED_INT, 0);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+
 	/*
 	glBindBuffer(GL_ARRAY_BUFFER, HUD_Vertex_buf);
 	glBufferData(GL_ARRAY_BUFFER, HUD_Verts.size() *  sizeof(HUD_Verts), &HUD_Verts[0], GL_STATIC_DRAW);

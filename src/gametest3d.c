@@ -39,6 +39,11 @@
 #include "player.h"
 
 #include "button.h"
+#include "modular_piece.h"
+#include "scene.h"
+#include <btBulletDynamicsCommon.h>
+#include "testload.h"
+
 GLuint VBO;
 GLuint VAO;
 GLuint EBO;
@@ -71,7 +76,7 @@ static int mana;
 GLuint triangleBufferObject;
 int main(int argc, char *argv[])
 {
-
+	//btBroadphaseInterface* broadphase = new btDbvtBroadphase();
 	glutInit(&argc, argv);
 	int hudon = 0;
 	
@@ -130,7 +135,7 @@ int main(int argc, char *argv[])
 
 
 
-	GLuint MatrixID = glGetUniformLocation(graphics3d_get_shader_program(), "MVP");
+	GLuint MatrixID = glGetUniformLocation(graphics3d_get_shader_program(), "VP");
 	//glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
 //	glm::mat4 View = glm::lookAt(glm::vec3(4, 3, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	Camera cam;
@@ -145,12 +150,15 @@ int main(int argc, char *argv[])
 	//Projection = cam.getProjectionMatrix();
 
 
-	glm::mat4 Model = glm::mat4(1.0f);
+	glm::mat4 Model = glm::mat4();
 
 	//glm::mat4 mvp = Projection * View * Model;
-	glm::mat4 mvp;
-	glm::mat4 mvp2;
-	glm::mat4 mvp3;
+	glm::mat4 vp;
+
+
+
+
+	
 	//glm::mat4 View;
 
 
@@ -169,6 +177,13 @@ int main(int argc, char *argv[])
 
 	Manager *manager = getmanager();
 
+	Scene *scene = getscene();
+
+	SceneInit();
+
+	SetupScene("test.txt");
+
+	//TestScene("test.txt");
 
 	Entity_Init();
 
@@ -176,7 +191,7 @@ int main(int argc, char *argv[])
 
 	player.ent = Entity_New("monkey.obj", glm::vec3(0, 0, 0));
 
-	//Entity_New("cube.obj", glm::vec3(0, 0, 0));
+	//Entity_New("cube.obj", glm::vec3(2, 2, 2));
 
 	//Entity_New("monkey.obj", glm::vec3(0, 0, 0));
 
@@ -272,7 +287,7 @@ int main(int argc, char *argv[])
 				held = false;
 		}
 
-		glClearColor(0.0, 0.0, 0.0, 0.0);
+		glClearColor(1.0, 1.0, 1.0, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		GLfloat radius = 1.0f;
 		//GLfloat camX = sin((SDL_GetTicks()/1000) * radius);
@@ -380,11 +395,11 @@ int main(int argc, char *argv[])
 
 
 
-		mvp = Projection * View * Model;
+		vp = Projection * View;
 
-		mvp2 = ProjTest * ViewTest * Model;
+		//mvp2 = ProjTest * ViewTest * Model;
 
-		mvp3 = ProjTest2 * ViewTest2 * Model;
+		//mvp3 = ProjTest2 * ViewTest2 * Model;
 
 
 
@@ -417,7 +432,7 @@ int main(int argc, char *argv[])
 
 		glUseProgram(graphics3d_get_shader_program());
 
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &vp[0][0]);
 		//mesh.Draw_Mesh();
 		//mesh2.Draw_Mesh();
 		//hud.Draw_HUD();
@@ -426,6 +441,8 @@ int main(int argc, char *argv[])
 
 
 		Entity_DrawAll();
+
+		DrawScene();
 
 		if (hudon % 2 != 0)
 		{
@@ -522,6 +539,7 @@ int main(int argc, char *argv[])
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		*/
+		
 
 		glUseProgram(0);
 		/* drawing code above here! */

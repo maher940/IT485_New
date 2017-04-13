@@ -63,7 +63,7 @@ public:
 
 	bool Load_Obj(const char * path);
 	void Draw_Mesh();
-
+	void TextureLoad();
 	void Draw_Quad();
 
 };

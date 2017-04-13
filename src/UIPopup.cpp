@@ -27,9 +27,6 @@
 void drawstats(int health, float exp, int mana, int level, int skillstats, int strength, int speed, int arcane)
 {
 
-
-
-	
 	glColor3f(1, 0, 0);
 
 
