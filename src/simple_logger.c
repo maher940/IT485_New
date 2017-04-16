@@ -27,7 +27,7 @@ void init_logger(const char *log_file_path)
     atexit(close_logger);
 }
 
-void _slog(char *f,int l,char *msg,...)
+void _slog(char *f,int l,const char *msg,...)
 {
     va_list ap;
     /*echo all logging to stdout*/

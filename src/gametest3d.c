@@ -34,7 +34,7 @@
 #include "hud.h"
 #include <GL\glut.h>
 #include <GL\freeglut.h>
-#include "jansson.h"
+
 #include "resourcemanager.h"
 #include "player.h"
 
@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 
 	SceneInit();
 
-	SetupScene("test.txt");
+	SetupScene("scene.json");
 
 	//TestScene("test.txt");
 
@@ -436,8 +436,6 @@ int main(int argc, char *argv[])
 		//mesh.Draw_Mesh();
 		//mesh2.Draw_Mesh();
 		//hud.Draw_HUD();
-
-	
 
 
 		Entity_DrawAll();

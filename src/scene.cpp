@@ -1,12 +1,14 @@
-#include "scene.h"
 
 #include <vector>
-#include "simple_logger.h"
+
 #include <glm\vec3.hpp>
-#include <string>
+
+#include <iostream>
+
+#include <fstream>
+#include "scene.h"
+#include "simple_logger.h"
 static Scene scene;
-
-
 
 Scene* getscene()
 {
@@ -64,7 +66,127 @@ void SceneClose()
 }
 bool SetupScene(const char * path)
 {
+
+
+	std::ifstream ifs(path);
+
+	std::string str;
+
 	
+	// ifs >> str;
+
+	// json j;
+
+	 ifs >> scene.j;
+
+	 
+
+	 if (scene.j == NULL)
+	 {
+		 return false;
+	 }
+	 
+
+	 for (int i = 0; i < scene.j["objects"].size(); i++)
+	 {
+
+
+		 std::string str = scene.j["objects"][i]["model"];
+		 glm::vec3 temp_pos;
+		 temp_pos.x = scene.j["objects"][i]["vector"][0];
+		 temp_pos.y = scene.j["objects"][i]["vector"][1];
+		 temp_pos.z = scene.j["objects"][i]["vector"][2];
+
+		 if (scene.ModularList[i].inuse)
+		 {
+
+			 continue;
+		 }
+
+		 else
+		 {
+
+
+			 memset(&scene.ModularList[i], 0, sizeof(Modular_Struct));
+
+			 slog("Scene Piece Added");
+
+			 if (!&scene.ModularList[i])
+			 {
+				 slog("Scene Piece Failed");
+			 }
+
+			 scene.numpieces++;
+
+			 scene.ModularList[i].inuse = 1;
+
+			 scene.ModularList[i].model.Load_Obj(str.c_str());
+
+
+			 scene.ModularList[i].position = temp_pos;
+
+			 scene.ModularList[i].ModelMat = glm::translate(glm::mat4(), scene.ModularList[i].position);
+
+
+		 }
+
+
+	 }
+
+	 
+
+
+
+
+
+
+
+
+	// std::cout << "This is the file " << str << std::endl;
+	 //std::cout << "Second Char " << str[1] << std::endl;
+
+	
+	// printf(strc);
+	// std::string s = (scene.j["objects"][0]["model"].dump() + "\n");
+	//std::string s = (scene.j["objects"][0]["vector"][0].dump() + "\n");
+	//slog(s.c_str());
+
+	//ifs >> str;
+
+	
+
+	//scene.j = json::parse(ifs);
+
+	//json j(ifs);
+
+	//scene.j(i);
+
+	//i >> scene.j;
+
+
+
+
+	//scene.j["objects"][0]["model"];
+
+	//slog(scene.j["objects"][0]["model"]);
+
+	/*
+	if (scene.j["objects"][0]["model"] == "cube.obj")
+	{
+
+		slog("HELLO");
+
+
+	}
+	*/
+
+
+
+
+
+
+
+	/*
 	char buf[512];
 
 	std::vector<std::string>temp_models;
@@ -108,7 +230,7 @@ bool SetupScene(const char * path)
 
 	}
 	
-	/**/
+	/*
 	for (int i = 0; i < temp_models.size(); i++)
 	{
 		if (scene.ModularList[i].inuse)
@@ -137,12 +259,17 @@ bool SetupScene(const char * path)
 
 			if (temp_models[i] == "cube")
 			{
-				scene.ModularList[i].model.Load_Obj("cube.obj");
+				scene.ModularList[i].model.Load_Obj("cube3.obj");
 			}
 
 			scene.ModularList[i].position = temp_position[i];
 
 			scene.ModularList[i].ModelMat = glm::translate(glm::mat4(), scene.ModularList[i].position);
+
+
+
+
+
 			//scene.ModularList[i].model.Load_Obj()
 			/*
 			memset(&manager.entityList[i], 0, sizeof(Entity_Struct));
@@ -152,7 +279,7 @@ bool SetupScene(const char * path)
 			{
 				slog("Entity additin failed");
 			}
-			*/
+			
 
 
 
@@ -167,7 +294,8 @@ bool SetupScene(const char * path)
 
 	fclose(file);
 	return true;
-
+	*/
+return true;
 
 }
 

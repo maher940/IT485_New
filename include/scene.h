@@ -11,16 +11,20 @@
 #include "modular_piece.h"
 #include <vector>
 #include <string>
-
+#include <json.hpp>
 #define maxpieces 100
 
+using json = nlohmann::json;
 //std::vector<Vertex> scene_parts;
+
+
+
 
 typedef struct
 {
 	int numpieces;
 
-
+	json j;
 	//std::vector<Modular_Struct> scene_parts;
 
 	//std::vector<std::string> models;

@@ -34,7 +34,7 @@ void init_logger(const char *log_file_path);
   @param ... variables to be put into the tokens.
 */
 #define slog(...) _slog(__FILE__,__LINE__,__VA_ARGS__)
-void _slog(char *f,int l,char *msg,...);
+void _slog(char *f,int l,const char *msg,...);
 
 
 #endif
