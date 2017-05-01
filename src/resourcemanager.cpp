@@ -1,6 +1,8 @@
 #include "resourcemanager.h"
-#include "entity.h"
+
 #include "simple_logger.h"
+
+
 
 
 static Manager manager;
@@ -63,7 +65,7 @@ void Entity_Close()
 
 }
 
-Entity_Struct* Entity_New(const char * path, glm::vec3 position)
+Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics physics)
 {
 
 	int i;
@@ -106,8 +108,41 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position)
 			manager.entityList[i].position = position;
 
 			manager.entityList[i].Model = glm::translate(glm::mat4(), position);
-		
+
+			float width;
+			float height;
+			float depth;
+
+			width = manager.entityList[i].mesh.xdis;
+
+			height = manager.entityList[i].mesh.ydis;
+
+			depth = manager.entityList[i].mesh.zdis;
+
+			manager.entityList[i].body = physics.CubeRigidBody(glm::vec3(width, height, depth), position, 1);
+
+			//manager.entityList[i].body = physics.CubeRigidBody(manager.entityList[i].mesh.xdis, manager.entityList[i].mesh.ydis, manager.entityList[i].mesh.zdis)
+
+
+
+			if (std::strcmp(path, "monkey.obj"))
+			{
+				manager.entityList[i].type == "monkey";
+			}
+
+			else if (std::strcmp(path, "cube.obj"))
+			{
+				manager.entityList[i].type == "cube";
+			}
+			else {
+
+				manager.entityList[i].type == "none";
+			}
 			break;
+
+
+
+
 		}
 	}
 
@@ -118,6 +153,26 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position)
 }
 void Entity_UpdateAll()
 {
+
+	int i;
+
+
+	for (i = 0; i < maxentities; i++)
+	{
+
+		if (!manager.entityList[i].inuse)
+		{
+			continue;
+		}
+
+
+		Entity_Update(&manager.entityList[i]);
+
+		//Entity_Draw(&manager.entityList[i]);
+
+		//glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &vp[0][0]);
+
+	}
 
 }
 

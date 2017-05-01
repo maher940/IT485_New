@@ -1,7 +1,7 @@
 #include "camera.h"
 #include<iostream>
 
-
+#include "graphics3d.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 
@@ -80,13 +80,25 @@ void Camera::cameraRotation(float x, float y)
 		pitch = -89.0f;
 
 
-
+	/*
 	glm::vec3 front;
 	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	front.y = sin(glm::radians(pitch));
 	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	camerafront = glm::normalize(front);
+	*/
 
+
+
+	glm::vec3 direction(
+		cos(glm::radians(yaw)) * cos(glm::radians(pitch)),
+		sin(glm::radians(pitch)),
+		sin(glm::radians(yaw)) * cos(glm::radians(pitch))
+	);
+
+	camerafront = glm::normalize(direction);
+	SDL_Window *window = getwindow();
+	
 
 }
 

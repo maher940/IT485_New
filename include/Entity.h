@@ -8,7 +8,9 @@
 #include <GL\glew.h>
 #include <SDL.h>
 #include "mesh.h"
-
+#include <string>
+#include <btBulletDynamicsCommon.h>
+#include "physics.h"
 typedef struct
 {
 	
@@ -21,7 +23,11 @@ typedef struct
 	Mesh mesh;
 
 	glm::mat4 Model;
-	
+
+	std::string type;
+
+	btRigidBody* body;
+
 
 }Entity_Struct;
 

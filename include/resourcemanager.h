@@ -1,6 +1,7 @@
 #ifndef __RESOURCEMANAGER_H__
 #define __RESOURCEMANAGER_H__
 
+
 #include "entity.h"
 
 #define maxentities 10
@@ -9,10 +10,13 @@
 typedef struct
 {
 
-	//Entity_Struct* entityList;
+	
 
 	Entity_Struct entityList[maxentities];
 	int numentities;
+	std::string type;
+
+	
 
 }Manager;
 
@@ -26,7 +30,7 @@ void Entity_Free(Entity_Struct *ent);
 
 void Entity_Init();
 
-Entity_Struct* Entity_New(const char * path, glm::vec3 position);
+Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics physics);
 
 void Entity_UpdateAll();
 

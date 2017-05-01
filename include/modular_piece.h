@@ -1,7 +1,7 @@
 #ifndef __MODULAR_PIECE_H__
 #define __MODULAR_PIECE_H__
 
-
+#include <string>
 #include <vector>
 #include <glm\vec3.hpp>
 #include <glm\mat4x4.hpp>;
@@ -18,6 +18,7 @@ typedef struct
 	Mesh model;
 	glm::mat4 ModelMat;
 	int inuse;
+	std::string type;
 
 }Modular_Struct;
 

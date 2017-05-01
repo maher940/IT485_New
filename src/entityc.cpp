@@ -1,7 +1,8 @@
 #include "entityc.h"
 
+#include "physics.h"
 
-
+#include <glm\mat4x4.hpp>;
 Entity::Entity()
 {
 
@@ -34,6 +35,12 @@ void Entity::Entity_drawMesh()
 
 void Entity::Entity_Update()
 {
+
+
+	
+	
+
+
 
 
 }

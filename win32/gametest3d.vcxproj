@@ -69,14 +69,14 @@
     <None Include="..\shaders\vs1_hud.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\bullet_build\src\BulletCollision\BulletCollision.vcxproj">
-      <Project>{6a148350-4d71-3955-bc08-065aa5bc9655}</Project>
+    <ProjectReference Include="..\..\..\BUILD_BULLET\src\BulletCollision\BulletCollision.vcxproj">
+      <Project>{7c76659f-35f5-3cc5-a528-40ae591fe3af}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\bullet_build\src\BulletDynamics\BulletDynamics.vcxproj">
-      <Project>{0f841f82-6083-3f47-8540-6c2b7dfe37b4}</Project>
+    <ProjectReference Include="..\..\..\BUILD_BULLET\src\BulletDynamics\BulletDynamics.vcxproj">
+      <Project>{82d66a40-1fd1-32b6-8aca-8ec7b2b559e8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\bullet_build\src\LinearMath\LinearMath.vcxproj">
-      <Project>{4772ca0d-41c2-3ad1-934a-2365a9557056}</Project>
+    <ProjectReference Include="..\..\..\BUILD_BULLET\src\LinearMath\LinearMath.vcxproj">
+      <Project>{1a483800-c79d-3e8b-bb6c-86feae6768d4}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -109,7 +109,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Jacob\IT485_2\myproject\include;C:\Users\Jacob\IT485_2\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Jacob\jasson_cmake\Build_Bullet\src;C:\Users\Jacob\IT485_2\myproject\include;C:\Users\Jacob\IT485_2\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Jacob\IT485_2\lib\x86;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\..</OutDir>
     <IntDir>$(ProjectDir)\..</IntDir>
@@ -119,7 +119,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>C:\Users\Jacob\libtest\bullet3-2.86.1\src;C:\Users\Jacob\bullet_build\src;C:\Users\Jacob\IT485\include;C:\Users\Jacob\IT485\myproject\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Jacob\Downloads\bullet3-master %281%29\bullet3-master\src;C:\Users\Jacob\BUILD_BULLET\src;C:\Users\Jacob\IT485\include;C:\Users\Jacob\IT485\myproject\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>

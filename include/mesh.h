@@ -51,11 +51,24 @@ class Mesh
 	std::vector<Texture> textures;
 
 	unsigned int indexsize;
+
+	
+
+
 	//std::
 
 public:
 	
+	float maxX;
+	float minX;
+	float maxY;
+	float minY;
+	float maxZ;
+	float minZ;
 
+	float xdis;
+	float ydis;
+	float zdis;
 
 	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
 	Mesh();

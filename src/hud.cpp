@@ -103,8 +103,6 @@ void HUD::TextureLoad()
 
 void HUD::Set_HUD_Points()
 {
-
-	
 	HUD_Verts.push_back(glm::vec3(0.6, 0.6, 0));
 	HUD_Verts.push_back(glm::vec3(0.6, -0.6, 0));
 	HUD_Verts.push_back(glm::vec3(-0.6, -0.6, 0));
@@ -130,7 +128,6 @@ void HUD::Set_HUD_Points()
 	glGenBuffers(1, &HUD_UV_buf);
 
 	glGenBuffers(1, &HUD_Index_buf);
-
 
 }
 

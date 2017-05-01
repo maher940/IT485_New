@@ -128,6 +128,16 @@ bool SetupScene(const char * path)
 			 scene.ModularList[i].ModelMat = glm::translate(glm::mat4(), scene.ModularList[i].position);
 
 
+			 if (str == "cube.obj")
+			 {
+				 scene.ModularList[i].type = "cube";
+			 }
+
+			 else
+			 {
+				 scene.ModularList[i].type = "none";
+			 }
+
 		 }
 
 

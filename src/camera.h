@@ -13,7 +13,7 @@ public:
 	glm::mat4 ProjectionMatrix;
 	float yaw = -90.0f;
 	float pitch = 0.0f;
-	float cameraspeed = 0.05f;
+	float cameraspeed = 0.15f;
 
 	float lastX = 1024 / 2.0;
 	float lastY = 768 / 2.0;

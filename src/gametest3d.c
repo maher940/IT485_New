@@ -19,6 +19,7 @@
 *    SOFTWARE.
 */
 #define GLM_ENABLE_EXPERIMENTAL
+#include <btBulletDynamicsCommon.h>
 #include "simple_logger.h"
 #include "graphics3d.h"
 #include "shader.h"
@@ -34,15 +35,19 @@
 #include "hud.h"
 #include <GL\glut.h>
 #include <GL\freeglut.h>
-
+#include "physics.h"
 #include "resourcemanager.h"
 #include "player.h"
 
 #include "button.h"
 #include "modular_piece.h"
 #include "scene.h"
-#include <btBulletDynamicsCommon.h>
+
 #include "testload.h"
+
+
+
+
 
 GLuint VBO;
 GLuint VAO;
@@ -68,18 +73,51 @@ static float experience;
 static int mana;
 
 
-
-
-
-
-
 GLuint triangleBufferObject;
+
+int* test;
+
+Test_Struct* teststr = new Test_Struct();
+
+
+class BulletDebugDrawer_DeprecatedOpenGL : public btIDebugDraw {
+	public:
+		void SetMatrices(glm::mat4 pViewMatrix, glm::mat4 pProjectionMatrix){
+			glUseProgram(0); // Use Fixed-function pipeline (no shaders)
+			glMatrixMode(GL_MODELVIEW);
+			glLoadMatrixf(&pViewMatrix[0][0]);
+			glMatrixMode(GL_PROJECTION);
+			glLoadMatrixf(&pProjectionMatrix[0][0]);
+		}
+		virtual void drawLine(const btVector3& from,const btVector3& to,const btVector3& color){
+			glColor3f(color.x(), color.y(), color.z());
+			glBegin(GL_LINES);
+				glVertex3f(from.x(), from.y(), from.z());
+				glVertex3f(to.x(), to.y(), to.z());
+			glEnd();
+		}
+		virtual void drawContactPoint(const btVector3 &,const btVector3 &,btScalar,int,const btVector3 &){}
+		virtual void reportErrorWarning(const char *){}
+		virtual void draw3dText(const btVector3 &,const char *){}
+		virtual void setDebugMode(int p){
+			m = p;
+		}
+		int getDebugMode(void) const {return 3;}
+		int m;
+};
+
+
+
+
 int main(int argc, char *argv[])
 {
 	//btBroadphaseInterface* broadphase = new btDbvtBroadphase();
+
+
+
 	glutInit(&argc, argv);
 	int hudon = 0;
-	
+
 
 	bool clicked = false;
 
@@ -91,7 +129,7 @@ int main(int argc, char *argv[])
 
 	experience = 100;
 	GLuint vao;
-	
+
 	char bGameLoopRunning = 1;
 	SDL_Event e;
 	const float triangleVertices[] = {
@@ -105,28 +143,28 @@ int main(int argc, char *argv[])
 	}; //we love you vertices!
 
 
-	//Vertex vertices 
+	   //Vertex vertices 
 
-	//std::vector<Vertex> vertices = Vertex(glm::vec3(0, 0, 0));
-	
-	/*
+	   //std::vector<Vertex> vertices = Vertex(glm::vec3(0, 0, 0));
 
-	Vertex verts[] = { glm::vec3(-0.5,-0.5,0), glm::vec3(0,0.5,0),glm::vec3(0.5,-0.5,0) };
+	   /*
 
-	std::vector<Vertex> vertices;
+	   Vertex verts[] = { glm::vec3(-0.5,-0.5,0), glm::vec3(0,0.5,0),glm::vec3(0.5,-0.5,0) };
 
-	vertices.push_back(verts[0]);
-	vertices.push_back(verts[1]);
-	vertices.push_back(verts[2]);
+	   std::vector<Vertex> vertices;
 
-	Test mesh(vertices);
-	*/
+	   vertices.push_back(verts[0]);
+	   vertices.push_back(verts[1]);
+	   vertices.push_back(verts[2]);
+
+	   Test mesh(vertices);
+	   */
 	init_logger("gametest3d.log");
 	if (graphics3d_init(1024, 768, 1, "gametest3d", 33) != 0)
 	{
 		return -1;
 	}
-	
+
 	//glGenVertexArrays(1, &vao);
 	//glBindVertexArray(vao);
 
@@ -137,14 +175,14 @@ int main(int argc, char *argv[])
 
 	GLuint MatrixID = glGetUniformLocation(graphics3d_get_shader_program(), "VP");
 	//glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
-//	glm::mat4 View = glm::lookAt(glm::vec3(4, 3, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	//	glm::mat4 View = glm::lookAt(glm::vec3(4, 3, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	Camera cam;
 
-	
+
 
 
 	//Camera cam;
-	
+
 	//View = cam.getViewMatrix();
 
 	//Projection = cam.getProjectionMatrix();
@@ -158,7 +196,7 @@ int main(int argc, char *argv[])
 
 
 
-	
+
 	//glm::mat4 View;
 
 
@@ -166,7 +204,7 @@ int main(int argc, char *argv[])
 
 	//glGenBuffers(1, &IndexVBO);
 	//glGenBuffers(1, &vertexbuffer);
-	
+
 	//Mesh mesh;
 
 	//Mesh mesh2;
@@ -184,12 +222,17 @@ int main(int argc, char *argv[])
 	SetupScene("scene.json");
 
 	//TestScene("test.txt");
+	Physics physics;
+
+	physics.PlaneBody();
+
+	//physics.
 
 	Entity_Init();
 
 	Player_Struct player;
 
-	player.ent = Entity_New("monkey.obj", glm::vec3(0, 0, 0));
+	player.ent = Entity_New("monkey.obj", glm::vec3(0, 5, 0), physics);
 
 	//Entity_New("cube.obj", glm::vec3(2, 2, 2));
 
@@ -212,14 +255,14 @@ int main(int argc, char *argv[])
 
 	hud.TextureLoad();
 
-	
+
 	Button button;
 
 	//button.Button_Setup(glm::vec3(0.35f, 0.01f, 0.0f), glm::vec3(0.3f, 0.01f, 0.0f), glm::vec3(0.3f, -0.1f, 0.0f), glm::vec3(0.35f, -0.1f, 0.0f));
 
 
 	button.Button_Setup(glm::vec3(-0.1f, 0.09, 0.0f), glm::vec3(-0.04, 0.09, 0.0f), glm::vec3(-0.1, 0.03, 0.0f), glm::vec3(-0.04, 0.03, 0.0f));
-	
+
 
 	Button button2;
 
@@ -232,7 +275,7 @@ int main(int argc, char *argv[])
 	Button button4;
 
 	button4.Button_Setup(glm::vec3(-0.1f, -0.17, 0.0f), glm::vec3(-0.04, -0.17, 0.0f), glm::vec3(-0.1, -0.23, 0.0f), glm::vec3(-0.04, -0.23, 0.0f));
-	
+
 	Button button5;
 
 	button5.Button_Setup(glm::vec3(-0.1f, -0.3, 0.0f), glm::vec3(-0.04, -0.3, 0.0f), glm::vec3(-0.1, -0.36, 0.0f), glm::vec3(-0.04, -0.36, 0.0f));
@@ -244,18 +287,19 @@ int main(int argc, char *argv[])
 	int x;
 	int y;
 
-	
+
 	int i = 4;
 	float time;
 	GLfloat angle = 20;
 	//Camera(glm::vec3 pos, float fov, float aspect, float zNear, float fNear)
 
-	
+
 
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-	
-	
+
+	BulletDebugDrawer_DeprecatedOpenGL mydebugdrawer;
+	physics.space->setDebugDrawer(&mydebugdrawer);
 
 
 
@@ -292,15 +336,15 @@ int main(int argc, char *argv[])
 		GLfloat radius = 1.0f;
 		//GLfloat camX = sin((SDL_GetTicks()/1000) * radius);
 		//GLfloat camZ = cos((SDL_GetTicks() / 1000) * radius);
-		
-		angle++;
-		
-		//View = glm::lookAt(glm::vec3(4, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-			 
-		//mvp = Projection * View * Model;
-		
 
-		
+		angle++;
+
+		//View = glm::lookAt(glm::vec3(4, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+
+		//mvp = Projection * View * Model;
+
+
+
 		SDL_GetMouseState(&x, &y);
 
 		if (state[SDL_SCANCODE_L])
@@ -320,7 +364,7 @@ int main(int argc, char *argv[])
 			//printf("TEST \n");
 			cam.cameraMovement('A');
 		}
-	
+
 		if (state[SDL_SCANCODE_D])
 		{
 			cam.cameraMovement('D');
@@ -336,7 +380,7 @@ int main(int argc, char *argv[])
 			cam.cameraMovement('S');
 			//printf("TEST \n");
 		}
-	
+
 
 
 		if (state[SDL_SCANCODE_U])
@@ -346,7 +390,7 @@ int main(int argc, char *argv[])
 			//health = health + 10;
 			Player_Health(&player, -10);
 		}
-			
+
 		if (state[SDL_SCANCODE_I])
 		{
 
@@ -365,12 +409,12 @@ int main(int argc, char *argv[])
 		//View = cam.getViewMatrix();
 		//Projection = cam.getProjectionMatrix();
 
-		
-		
+
+
 		cam.computeMatricesFromInputs();
 
 
-	//	glm::mat4 Projection = cam.getProjectionMatrix();
+		//	glm::mat4 Projection = cam.getProjectionMatrix();
 		//glm::mat4 View = cam.getViewMatrix();
 
 		glm::mat4 Projection = cam.ProjectionMatrix;
@@ -407,25 +451,25 @@ int main(int argc, char *argv[])
 		if (state[SDL_SCANCODE_A])
 		{
 
-			
-			//printf("TEST \n");
-			printf("\n");
-			printf("MVP \n");
-			std::cout << glm::to_string(mvp) << std::endl;
-			printf("\n");
-			printf("MVP2 \n");
-			std::cout << glm::to_string(mvp2) << std::endl;
-			printf("\n");
-			printf("MVP3 \n");
-			std::cout << glm::to_string(mvp3) << std::endl;
-			printf("\n");
+
+		//printf("TEST \n");
+		printf("\n");
+		printf("MVP \n");
+		std::cout << glm::to_string(mvp) << std::endl;
+		printf("\n");
+		printf("MVP2 \n");
+		std::cout << glm::to_string(mvp2) << std::endl;
+		printf("\n");
+		printf("MVP3 \n");
+		std::cout << glm::to_string(mvp3) << std::endl;
+		printf("\n");
 		}
 		*/
 
 
 
 
-		
+
 		//printf("x is %d \n", x);
 		//printf("y is %d \n", y);
 		/* drawing code in here! */
@@ -433,21 +477,131 @@ int main(int argc, char *argv[])
 		glUseProgram(graphics3d_get_shader_program());
 
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &vp[0][0]);
+
+
+		/*
+		for (int i = 0; i < bodies.size(); i++)
+		{
+			if (bodies[i]->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
+			{
+				renderPlane(bodies[i]);
+			}
+			else if (bodies[i]->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
+				renderSphere(bodies[i]);
+
+
+		}
+		*/
+		time = SDL_GetTicks() / 1000;
+
+		if (state[SDL_SCANCODE_J])
+		{
+
+			//printf("TEST \n");
+			//health = health + 10;
+			//Player_Exp(&player, 10);
+
+			player.ent->body->activate(true);
+			//player.ent->body->applyCentralImpulse(btVector3(0, 0, 3));
+			player.ent->body->applyForce(btVector3(0., 0., 5.), btVector3(0., 0., 0.));
+
+			
+		
+			//player.ent->body->applyForce(btVector3(0,20,0),)
+			//player.ent->body->applyCentralForce(btVector3(0, 0, 10));
+			//slog("number %f \n", physics.callback.hithum);
+
+
+		}
+
+	
+
+	
+
+
+		if (state[SDL_SCANCODE_C])
+		{
+			player.ent->body->activate(true);
+			player.ent->body->applyTorque(btVector3(0, 20, 0));
+
+		}
+
+
+		
+
+		testCallback call(teststr);
+
+		physics.PhysicsStep(time);
+
+
+		physics.space->contactPairTest(player.ent->body, physics.bodies[0], call);
+
+
+		if (state[SDL_SCANCODE_B])
+		{
+
+			printf("test %d \n", teststr->points);
+			//player.ent->body->activate(true);
+			//player.ent->body->applyTorque(btVector3(0, 20, 0));
+
+		}
+
+		//slog("test %f \n", test);
+
+		//physics.CollisionTest(player.ent->body);
+
+		//physics.CollisionTest2(player.ent->body, physics.bodies[0]);
+
+		//player.ent->body->
+
+		
+
+
+
+
+
+		//physics.space->stepSimulation(time);
+
+
+
+	
+
+
+		//physics.space->contactTest(player.ent->body, physics.callback);
+
+		//printf("%f \n", physics.callback.hithum);
+		/*
+		space->stepSimulation(time);
+		space->performDiscreteCollisionDetection();
+		btDrawingResult renderCallback;
+
+
+		space->contactTest(bodies[1], renderCallback);
+
 		//mesh.Draw_Mesh();
 		//mesh2.Draw_Mesh();
 		//hud.Draw_HUD();
-
+		*/
 
 		Entity_DrawAll();
 
-		DrawScene();
+		Entity_UpdateAll();
+
+
+		//DrawScene();
+
+
+
+		mydebugdrawer.SetMatrices(View, Projection);
+		physics.space->debugDrawWorld();
+
 
 		if (hudon % 2 != 0)
 		{
 			glUseProgram(graphics3d_get_shader_program2());
-		
+
 			hud.Draw_HUD();
-			
+
 			glUseProgram(graphics3d_get_shader_program3());
 
 
@@ -506,7 +660,7 @@ int main(int argc, char *argv[])
 							player.skillpoints--;
 						}
 					}
-				
+
 					if (y >= 549 && y <= 571)
 					{
 						if (clicked == true)
@@ -519,8 +673,8 @@ int main(int argc, char *argv[])
 				}
 			}
 
-			
-			
+
+
 		}
 
 		time = SDL_GetTicks() / 1000;
@@ -537,7 +691,7 @@ int main(int argc, char *argv[])
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		*/
-		
+
 
 		glUseProgram(0);
 		/* drawing code above here! */
@@ -545,12 +699,12 @@ int main(int argc, char *argv[])
 
 		//switch to ortho for UI
 
-		glMatrixMode(GL_PROJECTION);					
-		glPushMatrix();							
-		glLoadIdentity();						
-		glOrtho(0, 1024, 768, 0, -1, 1);				
-		glMatrixMode(GL_MODELVIEW);					
-		glPushMatrix();							
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		glOrtho(0, 1024, 768, 0, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
 		glLoadIdentity();
 
 
@@ -573,15 +727,25 @@ int main(int argc, char *argv[])
 
 
 		//switch back to Perspective
-		glMatrixMode(GL_PROJECTION);					
-		glPopMatrix();							
-		glMatrixMode(GL_MODELVIEW);					
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode(GL_MODELVIEW);
 		glPopMatrix();
 
 
 
 		graphics3d_next_frame();
+
+
+		
 	}
+
+
+	physics.deleteRigidBody();
+
+	physics.deletePhysicsWorld();
+
+
 	return 0;
 }
 

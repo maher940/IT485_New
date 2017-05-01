@@ -4,6 +4,7 @@
 #include "SOIL.h"
 extern GLuint vao;
 GLuint vertexbuffer;
+GLuint normalbuffer;
 GLuint UVbuffer;
 GLuint IndexVBO;
 extern GLuint triangleBufferObject;
@@ -276,12 +277,71 @@ bool Mesh::Load_Obj(const char * path)
 
 	}
 
+	//float temp_x = 0;
+	//float temp_y = 0;
+	//float temp_z = 0;
 
+	maxX = temp_vertices[0].x;
+	minX = temp_vertices[0].x;
+
+
+	maxY = temp_vertices[0].y;
+	minY = temp_vertices[0].y;
+
+	maxZ = temp_vertices[0].z;
+	minZ = temp_vertices[0].z;
+
+
+
+	for (int i = 0; i < temp_vertices.size(); i++)
+	{
+
+		float temp_verx = temp_vertices[i].x;
+		float temp_very = temp_vertices[i].y;
+		float temp_verz = temp_vertices[i].z;
+
+		if (temp_verx < minX)
+		{
+			minX = temp_verx;
+
+		}
+		else if (temp_verx > maxX)
+		{
+			maxX = temp_verx;
+		}
+
+		if (temp_very < minY)
+		{
+			minY = temp_very;
+
+		}
+		else if (temp_very> maxY)
+		{
+			maxY = temp_very;
+		}
+
+		if (temp_verz < minZ)
+		{
+			minZ = temp_verz;
+
+		}
+		else if (temp_verz > maxZ)
+		{
+			maxZ = temp_verz;
+		}
+
+	}
+
+	xdis = maxX - (minX);
+	ydis = maxY - (minY);
+	zdis = maxZ - (minZ);
 
 	indices = Indices;
 	fclose(file);
 	glGenBuffers(1, &IndexVBO);
 	glGenBuffers(1, &vertexbuffer);
+	//glGenBuffers(1, &normalbuffer);
+
 	return true;
 
 }
@@ -297,6 +357,10 @@ void Mesh::Draw_Mesh()
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, vertices2.size() * sizeof(Vertex), &vertices2[0], GL_STATIC_DRAW);
+
+
+
+	
 
 	//glBindBuffer(GL_ARRAY_BUFFER, HUD_UV_buf);
 
@@ -314,6 +378,14 @@ void Mesh::Draw_Mesh()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexVBO);
 	
+
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, Normal));
+
+	
+
+
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*)0);
 	
 	glDisableVertexAttribArray(0);
