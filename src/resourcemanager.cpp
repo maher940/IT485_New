@@ -44,6 +44,9 @@ void Entity_Free(Entity_Struct *ent)
 	{
 		slog("Entity does not exist");
 	}
+
+	//delete(&manager.entityList[ent->entity_num].body);
+
 	memset(&manager.entityList[ent->entity_num], 0, sizeof(Entity_Struct));
 	slog("Entity Freed");
 }
@@ -65,11 +68,15 @@ void Entity_Close()
 
 }
 
-Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics physics)
+Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physics)
 {
 
 	int i;
 
+	if (strcmp(path, "monkey.obj"))
+	{
+		slog("monkey time \n");
+	}
 
 	if (manager.numentities == maxentities)
 	{
@@ -106,6 +113,9 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics physics
 			manager.entityList[i].entity_num = i;
 
 			manager.entityList[i].position = position;
+			manager.entityList[i].forward = position;
+
+			manager.entityList[i].forward.z -= 1;
 
 			manager.entityList[i].Model = glm::translate(glm::mat4(), position);
 
@@ -119,7 +129,7 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics physics
 
 			depth = manager.entityList[i].mesh.zdis;
 
-			manager.entityList[i].body = physics.CubeRigidBody(glm::vec3(width, height, depth), position, 1);
+			manager.entityList[i].body = physics->CubeRigidBody(glm::vec3(width, height, depth), position, 1);
 
 			//manager.entityList[i].body = physics.CubeRigidBody(manager.entityList[i].mesh.xdis, manager.entityList[i].mesh.ydis, manager.entityList[i].mesh.zdis)
 
@@ -127,16 +137,19 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics physics
 
 			if (std::strcmp(path, "monkey.obj"))
 			{
-				manager.entityList[i].type == "monkey";
+				slog("is player \n");
+				manager.entityList[i].type = "player";
+				
 			}
 
 			else if (std::strcmp(path, "cube.obj"))
 			{
-				manager.entityList[i].type == "cube";
+				slog("is bullet \n");
+				manager.entityList[i].type = "bullet";
 			}
 			else {
 
-				manager.entityList[i].type == "none";
+				manager.entityList[i].type = "none";
 			}
 			break;
 
@@ -162,6 +175,12 @@ void Entity_UpdateAll()
 
 		if (!manager.entityList[i].inuse)
 		{
+			continue;
+		}
+
+		if (manager.entityList[i].timer > 200)
+		{
+			Entity_Free(&manager.entityList[i]);
 			continue;
 		}
 

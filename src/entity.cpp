@@ -28,7 +28,7 @@ void Entity_Update(Entity_Struct *ent)
 	
 	
 	
-	btQuaternion rotation = t.getRotation();
+	//btQuaternion rotation = t.getRotation();
 
 
 	
@@ -41,11 +41,23 @@ void Entity_Update(Entity_Struct *ent)
 
 	newpos.z = origin.getZ();
 
+	ent->position = newpos;
+	
 	ent->Model = glm::translate(glm::mat4(), newpos);
 
 	
 
+	if (ent->type == "player")
+	{
+		ent->timer++;
+		//ent->timer++;
+		//slog("TImer %d", ent->timer);
+	}
+	
+
 	//ent->Model = glm::rotate(glm::mat4(), rotation);
+
+	
 	
 
 }

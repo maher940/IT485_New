@@ -104,6 +104,7 @@ public:
 
 	btRigidBody* SphereRigidBody(float radius, glm::vec3 position, float mass);
 	btRigidBody* CubeRigidBody(glm::vec3 size, glm::vec3 position, float mass);
+	btRigidBody* CubeRigidBodyTR(glm::vec3 size, glm::vec3 position, float mass);
 	btRigidBody* PlaneBody();
 
 	void Physics::deleteRigidBody();

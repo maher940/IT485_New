@@ -16,6 +16,8 @@ typedef struct
 	
 	glm::vec3 position;
 
+	glm::vec3 forward;
+
 	int inuse;
 
 	int entity_num;
@@ -27,6 +29,8 @@ typedef struct
 	std::string type;
 
 	btRigidBody* body;
+
+	int timer;
 
 
 }Entity_Struct;

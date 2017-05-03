@@ -222,9 +222,9 @@ int main(int argc, char *argv[])
 	SetupScene("scene.json");
 
 	//TestScene("test.txt");
-	Physics physics;
+	Physics* physics = new Physics();;
 
-	physics.PlaneBody();
+	physics->PlaneBody();
 
 	//physics.
 
@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
 
 
 	BulletDebugDrawer_DeprecatedOpenGL mydebugdrawer;
-	physics.space->setDebugDrawer(&mydebugdrawer);
+	physics->space->setDebugDrawer(&mydebugdrawer);
 
 
 
@@ -314,6 +314,15 @@ int main(int argc, char *argv[])
 				bGameLoopRunning = 0;
 			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
 				bGameLoopRunning = 0;
+
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_q)
+			{
+				Player_Shoot(&player, physics, manager);
+			}
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_k)
+			{
+				Player_Melee(&player, physics);
+			}
 
 			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_TAB)
 				hudon++;
@@ -354,8 +363,9 @@ int main(int argc, char *argv[])
 			printf("y %d \n", y);
 		}
 
-		cam.cameraRotation(x, y);
-
+		
+		//cam.cameraRotation(x, y);
+		/*
 
 		//cam.CameraRot(x, y);
 		if (state[SDL_SCANCODE_A])
@@ -380,8 +390,31 @@ int main(int argc, char *argv[])
 			cam.cameraMovement('S');
 			//printf("TEST \n");
 		}
+		*/
+
+		btTransform t;
+
+		player.ent->body->getMotionState()->getWorldTransform(t);
+
+		btVector3 origin = t.getOrigin();
 
 
+		glm::vec3 newpos;
+
+		newpos.x = origin.getX();
+
+		newpos.y = origin.getY();
+
+		newpos.z = origin.getZ();
+		
+		//cam.camerafront = newpos;
+
+		cam.camerapos = newpos;
+
+		cam.camerapos.z += 20;
+		cam.camerapos.y += 5;
+
+		//cam.camerapos = player.ent->body->getWorldTransform().getOrigin();
 
 		if (state[SDL_SCANCODE_U])
 		{
@@ -409,9 +442,13 @@ int main(int argc, char *argv[])
 		//View = cam.getViewMatrix();
 		//Projection = cam.getProjectionMatrix();
 
+		
 
 
 		cam.computeMatricesFromInputs();
+
+
+		//Player_Pos(&player, cam.camerapos);
 
 
 		//	glm::mat4 Projection = cam.getProjectionMatrix();
@@ -503,8 +540,8 @@ int main(int argc, char *argv[])
 
 			player.ent->body->activate(true);
 			//player.ent->body->applyCentralImpulse(btVector3(0, 0, 3));
-			player.ent->body->applyForce(btVector3(0., 0., 5.), btVector3(0., 0., 0.));
-
+			//player.ent->body->applyForce(btVector3(0., 0., 5.), btVector3(0., 0., 0.));
+			player.ent->body->setLinearVelocity(btVector3(0, 0, -3));
 			
 		
 			//player.ent->body->applyForce(btVector3(0,20,0),)
@@ -515,26 +552,69 @@ int main(int argc, char *argv[])
 		}
 
 	
-
-	
+		
 
 
 		if (state[SDL_SCANCODE_C])
 		{
 			player.ent->body->activate(true);
-			player.ent->body->applyTorque(btVector3(0, 20, 0));
 
+
+			
+			player.ent->body->setAngularVelocity(btVector3(0, 1, 0));
+			//player.ent->body->applyTorque(btVector3(0, 2, 0));
+			//player.ent->body->getWorldTransform().getBasis().
+			//btVector3 p1;
+			//p1.rotate(btVector3(3, 0, 0), 10);
+			//player.ent->Model = glm::rotate(glm::mat4(), 1.0f, glm::vec3(0,1,0));
+
+			
 		}
 
 
+		if (state[SDL_SCANCODE_V])
+		{
+
+
+			slog("size of bodies %d", physics->bodies.size());
+			//delete(physics.bodies[2]);
+			//player.ent->body->activate(true);
+			//player.ent->body->applyTorque(btVector3(0, 20, 0));
+			//player.ent->body->getWorldTransform().getBasis().getEulerYPR();
+
+
+
+			//physics->space->removeCollisionObject(bodies[i]);
+			//btMotionState* motionState = bodies[i]->getMotionState();
+			//btCollisionShape* shape = bodies[i]->getCollisionShape();
+			//delete bodies[i];
+			//delete shape;
+			//delete motionState;
+			/*
+			physics.space->removeCollisionObject(physics.bodies[2]);
+			btMotionState* motionState = physics.bodies[2]->getMotionState();
+			btCollisionShape* shape = physics.bodies[2]->getCollisionShape();
+
+			delete physics.bodies[2];
+
+			delete shape;
+
+			delete motionState;
+			*/
+			//physics.space->removeRigidBody(physics.bodies[2]);
+
+
+
+
+		}
 		
 
 		testCallback call(teststr);
 
-		physics.PhysicsStep(time);
+		physics->PhysicsStep(time);
 
 
-		physics.space->contactPairTest(player.ent->body, physics.bodies[0], call);
+		physics->space->contactPairTest(player.ent->body, physics->bodies[0], call);
 
 
 		if (state[SDL_SCANCODE_B])
@@ -546,6 +626,7 @@ int main(int argc, char *argv[])
 
 		}
 
+	
 		//slog("test %f \n", test);
 
 		//physics.CollisionTest(player.ent->body);
@@ -593,7 +674,7 @@ int main(int argc, char *argv[])
 
 
 		mydebugdrawer.SetMatrices(View, Projection);
-		physics.space->debugDrawWorld();
+		physics->space->debugDrawWorld();
 
 
 		if (hudon % 2 != 0)
@@ -741,9 +822,9 @@ int main(int argc, char *argv[])
 	}
 
 
-	physics.deleteRigidBody();
+	physics->deleteRigidBody();
 
-	physics.deletePhysicsWorld();
+	physics->deletePhysicsWorld();
 
 
 	return 0;

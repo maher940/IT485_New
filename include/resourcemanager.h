@@ -30,7 +30,7 @@ void Entity_Free(Entity_Struct *ent);
 
 void Entity_Init();
 
-Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics physics);
+Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physics);
 
 void Entity_UpdateAll();
 

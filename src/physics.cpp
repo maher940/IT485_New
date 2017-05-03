@@ -55,7 +55,7 @@ btRigidBody* Physics::PlaneBody()
 
 btRigidBody* Physics::CubeRigidBody(glm::vec3 size, glm::vec3 position, float mass)
 {
-
+	slog("We maming a body");
 	btTransform t;
 
 	t.setIdentity();
@@ -84,7 +84,40 @@ btRigidBody* Physics::CubeRigidBody(glm::vec3 size, glm::vec3 position, float ma
 
 }
 
+btRigidBody* Physics::CubeRigidBodyTR(glm::vec3 size, glm::vec3 position, float mass)
+{
 
+	btTransform t;
+
+	t.setIdentity();
+
+	t.setOrigin(btVector3(position.x, position.y, position.z));
+
+	btBoxShape* cube = new btBoxShape(btVector3(size.x / 2.0, size.y / 2.0, size.z / 2.0));
+
+	btVector3 inertia(0, 0, 0);
+
+	if (mass != 0.0)
+	{
+		cube->calculateLocalInertia(mass, inertia);
+	}
+
+	btMotionState* motion = new btDefaultMotionState(t);
+
+	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, cube, inertia);
+
+	btRigidBody* body = new btRigidBody(info);
+
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	space->addRigidBody(body);
+
+	bodies.push_back(body);
+
+	return body;
+
+
+
+}
 btRigidBody* Physics::SphereRigidBody(float radius, glm::vec3 position, float mass)
 {
 
@@ -111,7 +144,7 @@ btRigidBody* Physics::SphereRigidBody(float radius, glm::vec3 position, float ma
 	btRigidBody* body = new btRigidBody(info);
 	space->addRigidBody(body);
 
-	bodies.push_back(body);
+	//bodies.push_back(body);
 
 	return body;
 

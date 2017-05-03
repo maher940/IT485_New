@@ -3,7 +3,7 @@
 
 
 #include "entity.h"
-
+#include "resourcemanager.h"
 
 typedef struct
 {
@@ -39,5 +39,12 @@ void Player_Health(Player_Struct *player, int health);
 void Player_Mana(Player_Struct *player, int mana);
 
 void Player_Exp(Player_Struct *player, float exp);
+
+void Player_Pos(Player_Struct *player,glm::vec3 camerapos);
+
+void Player_Shoot(Player_Struct *player, Physics* physics, Manager *manager);
+
+
+void Player_Melee(Player_Struct *player, Physics* physics);
 
 #endif __PLAYER_H__

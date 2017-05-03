@@ -359,9 +359,6 @@ void Mesh::Draw_Mesh()
 	glBufferData(GL_ARRAY_BUFFER, vertices2.size() * sizeof(Vertex), &vertices2[0], GL_STATIC_DRAW);
 
 
-
-	
-
 	//glBindBuffer(GL_ARRAY_BUFFER, HUD_UV_buf);
 
 
