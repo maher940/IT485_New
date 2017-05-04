@@ -192,7 +192,6 @@ bool Mesh::Load_Obj(const char * path)
 	for (unsigned int i = 0; i < Indices.size(); i++)
 	{
 
-
 		Indices[i] = Indices[i] - 1;
 
 	}
@@ -258,7 +257,7 @@ bool Mesh::Load_Obj(const char * path)
 		unsigned int norm;
 		unsigned int uv;
 
-
+		
 		pos = Index_list[i].x;
 		norm = Index_list[i].z;
 		uv = Index_list[i].y;

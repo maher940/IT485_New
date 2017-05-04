@@ -45,12 +45,7 @@ class Mesh
 {
 
 
-	std::vector<Vertex> vertices;
-	std::vector<Vertex> vertices2;
-	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
-
-	unsigned int indexsize;
+	
 
 	
 
@@ -59,6 +54,15 @@ class Mesh
 
 public:
 	
+
+	std::vector<Vertex> vertices;
+	std::vector<Vertex> vertices2;
+	std::vector<unsigned int> indices;
+	std::vector<Texture> textures;
+
+	unsigned int indexsize;
+
+
 	float maxX;
 	float minX;
 	float maxY;

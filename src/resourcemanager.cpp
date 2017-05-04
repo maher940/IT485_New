@@ -2,9 +2,6 @@
 
 #include "simple_logger.h"
 
-
-
-
 static Manager manager;
 
 
@@ -48,6 +45,8 @@ void Entity_Free(Entity_Struct *ent)
 	//delete(&manager.entityList[ent->entity_num].body);
 
 	memset(&manager.entityList[ent->entity_num], 0, sizeof(Entity_Struct));
+	manager.numentities--;
+
 	slog("Entity Freed");
 }
 
@@ -73,14 +72,12 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 	int i;
 
-	if (strcmp(path, "monkey.obj"))
-	{
-		slog("monkey time \n");
-	}
+	
 
 	if (manager.numentities == maxentities)
 	{
 		slog("Cannot add more entities");
+		return 0;
 
 	}
 
@@ -129,22 +126,27 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 			depth = manager.entityList[i].mesh.zdis;
 
-			manager.entityList[i].body = physics->CubeRigidBody(glm::vec3(width, height, depth), position, 1);
+			//manager.entityList[i].body = physics->CubeRigidBody(glm::vec3(width, height, depth), position, 1);
+
+			manager.entityList[i].body = physics->MeshRigidBody(position, 1, manager.entityList[i].mesh);
+
+			physics->bodies[i + 1] = manager.entityList[i].body;
 
 			//manager.entityList[i].body = physics.CubeRigidBody(manager.entityList[i].mesh.xdis, manager.entityList[i].mesh.ydis, manager.entityList[i].mesh.zdis)
 
 
 
-			if (std::strcmp(path, "monkey.obj"))
+			
+			if (!std::strcmp(path, "C:\\Users\\Jacob\\IT485\\models\\My_Model\\monkey.obj"))
 			{
-				slog("is player \n");
+				//slog("is player \n");
 				manager.entityList[i].type = "player";
 				
 			}
 
-			else if (std::strcmp(path, "cube.obj"))
+			else if (!std::strcmp(path, "C:\\Users\\Jacob\\IT485\\models\\My_Model\\cube.obj"))
 			{
-				slog("is bullet \n");
+				//slog("is bullet \n");
 				manager.entityList[i].type = "bullet";
 			}
 			else {
@@ -164,7 +166,7 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 	
 
 }
-void Entity_UpdateAll()
+void Entity_UpdateAll(Physics* physics)
 {
 
 	int i;
@@ -180,7 +182,11 @@ void Entity_UpdateAll()
 
 		if (manager.entityList[i].timer > 200)
 		{
+			
 			Entity_Free(&manager.entityList[i]);
+			physics->bodies;
+			physics->deleteRigidBodyOne(i+1);
+			physics->bodies;
 			continue;
 		}
 

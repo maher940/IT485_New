@@ -14,6 +14,7 @@
     <ClCompile Include="..\include\controls.cpp" />
     <ClCompile Include="..\src\button.cpp" />
     <ClCompile Include="..\src\camera.cpp" />
+    <ClCompile Include="..\src\enemy.cpp" />
     <ClCompile Include="..\src\entity.cpp" />
     <ClCompile Include="..\src\entityc.cpp" />
     <ClCompile Include="..\src\gametest3d.c" />
@@ -37,6 +38,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\button.h" />
     <ClInclude Include="..\include\controls.h" />
+    <ClInclude Include="..\include\enemy.h" />
     <ClInclude Include="..\include\entity.h" />
     <ClInclude Include="..\include\entityc.h" />
     <ClInclude Include="..\include\graphics3d.h" />

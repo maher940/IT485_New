@@ -47,7 +47,7 @@ void Entity_Update(Entity_Struct *ent)
 
 	
 
-	if (ent->type == "player")
+	if (ent->type == "bullet")
 	{
 		ent->timer++;
 		//ent->timer++;

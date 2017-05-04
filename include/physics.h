@@ -1,11 +1,12 @@
 
 #ifndef  __PHYSICS_H
 #define __PHYSICS_H
+
 #include <btBulletDynamicsCommon.h>
 #include <vector>
-
+#define maxentities 11
 #include "simple_logger.h"
-
+#include "mesh.h"
 #include "glm\vec3.hpp"
 
 
@@ -89,7 +90,16 @@ public:
 
 	btConstraintSolver* solver;
 
+
+
 	std::vector<btRigidBody*>bodies;
+
+	
+	
+
+	std::vector<btRigidBody*>Melee;
+
+	std::vector<btRigidBody*>Bullets;
 
 	std::vector<glm::vec3>bodiesPos;
 
@@ -104,7 +114,8 @@ public:
 
 	btRigidBody* SphereRigidBody(float radius, glm::vec3 position, float mass);
 	btRigidBody* CubeRigidBody(glm::vec3 size, glm::vec3 position, float mass);
-	btRigidBody* CubeRigidBodyTR(glm::vec3 size, glm::vec3 position, float mass);
+	btRigidBody* CubeRigidBodyTR(glm::vec3 size, glm::vec3 position, float mass, btQuaternion* quat);
+	btRigidBody* MeshRigidBody(glm::vec3 position, float mass, Mesh mesh);
 	btRigidBody* PlaneBody();
 
 	void Physics::deleteRigidBody();
@@ -112,6 +123,9 @@ public:
 
 	void Physics::deletePhysicsWorld();
 	
+	void Physics::deleteRigidBodyOne(int i);
+
+	void Physics::deleteMelee();
 
 
 	void CollisionTest(btRigidBody* body);

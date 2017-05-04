@@ -38,7 +38,7 @@
 #include "physics.h"
 #include "resourcemanager.h"
 #include "player.h"
-
+#include "enemy.h"
 #include "button.h"
 #include "modular_piece.h"
 #include "scene.h"
@@ -78,6 +78,68 @@ GLuint triangleBufferObject;
 int* test;
 
 Test_Struct* teststr = new Test_Struct();
+
+
+
+
+struct meleecollision : public btCollisionWorld::ContactResultCallback
+{
+
+
+		//testCallback(Test_Struct* context) : ctext(context) {}
+
+	meleecollision(Enemy_Struct* enemy) : ene(enemy) {}
+
+
+	virtual	btScalar addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1)
+	{
+
+		Enemy_Health(ene, -10);
+
+		slog("Enemy Health %d \n", ene->health);
+		if (ene->health < 0)
+		{
+			Enemy_Die(ene);
+			slog("HEEEEEEE\n");
+			//Enemy_Die(ene);
+		}
+		return 0;
+
+	}
+
+	Enemy_Struct* ene;
+
+};
+
+
+
+struct procollision : public btCollisionWorld::ContactResultCallback
+{
+
+
+	//testCallback(Test_Struct* context) : ctext(context) {}
+
+	procollision(Enemy_Struct* enemy) : ene(enemy) {}
+
+
+	virtual	btScalar addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1)
+	{
+
+
+		Enemy_Health(ene, -20);
+
+		
+
+		slog("Enemy Health %d \n", ene->health);
+		
+
+		return 0;
+	}
+
+	Enemy_Struct* ene;
+
+};
+
 
 
 class BulletDebugDrawer_DeprecatedOpenGL : public btIDebugDraw {
@@ -122,6 +184,10 @@ int main(int argc, char *argv[])
 	bool clicked = false;
 
 	bool held = false;
+
+	bool shootheld = false;
+
+	bool meleeheld = false;
 
 	health = 100;
 
@@ -213,6 +279,13 @@ int main(int argc, char *argv[])
 
 	//mesh2.Load_Obj("monkey.obj");
 
+
+	//Mesh sword;
+
+
+	//sword.Load_Obj("sword");
+
+
 	Manager *manager = getmanager();
 
 	Scene *scene = getscene();
@@ -230,9 +303,17 @@ int main(int argc, char *argv[])
 
 	Entity_Init();
 
-	Player_Struct player;
+	Player_Struct* player = new Player_Struct();
 
-	player.ent = Entity_New("monkey.obj", glm::vec3(0, 5, 0), physics);
+	player->ent = Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\monkey.obj", glm::vec3(0, 5, 0), physics);
+
+	//player->ent->type = "player";
+
+	Enemy_Struct* enemy = new Enemy_Struct();
+
+	enemy->ent = Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\enemy.obj", glm::vec3(0, 5, -5), physics);
+
+	//enemy->ent->type = "player";
 
 	//Entity_New("cube.obj", glm::vec3(2, 2, 2));
 
@@ -317,13 +398,49 @@ int main(int argc, char *argv[])
 
 			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_q)
 			{
-				Player_Shoot(&player, physics, manager);
+				if (shootheld == false)
+				{
+					Player_Shoot(player, physics, manager);
+				}
+
+				shootheld = true;
 			}
-			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_k)
+			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_q)
 			{
-				Player_Melee(&player, physics);
+				shootheld = false;
 			}
 
+
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_x)
+			{
+				if (meleeheld == false)
+				{
+					Player_Melee(player, physics);
+				}
+
+				meleeheld = true;
+			}
+			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_x)
+			{
+				meleeheld = false;
+				physics->deleteMelee();
+			}
+
+
+
+		
+
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_y)
+			{
+				///Player_Sword(&player, physics);
+				//Player_Melee(&player, physics);
+				Player_Test(player);
+			}
+
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_r)
+			{
+				slog("Test num %d", player->sword.number);
+			}
 			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_TAB)
 				hudon++;
 			else if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
@@ -337,10 +454,11 @@ int main(int argc, char *argv[])
 			}
 
 			else if (e.type == SDL_MOUSEBUTTONUP)
+
 				held = false;
 		}
 
-		glClearColor(1.0, 1.0, 1.0, 0.0);
+		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		GLfloat radius = 1.0f;
 		//GLfloat camX = sin((SDL_GetTicks()/1000) * radius);
@@ -394,7 +512,7 @@ int main(int argc, char *argv[])
 
 		btTransform t;
 
-		player.ent->body->getMotionState()->getWorldTransform(t);
+		player->ent->body->getMotionState()->getWorldTransform(t);
 
 		btVector3 origin = t.getOrigin();
 
@@ -421,7 +539,7 @@ int main(int argc, char *argv[])
 
 			//printf("TEST \n");
 			//health = health + 10;
-			Player_Health(&player, -10);
+			Player_Health(player, -10);
 		}
 
 		if (state[SDL_SCANCODE_I])
@@ -429,14 +547,14 @@ int main(int argc, char *argv[])
 
 			//printf("TEST \n");
 			//health = health + 10;
-			Player_Mana(&player, -10);
+			Player_Mana(player, -10);
 		}
 		if (state[SDL_SCANCODE_O])
 		{
 
 			//printf("TEST \n");
 			//health = health + 10;
-			Player_Exp(&player, 10);
+			Player_Exp(player, 10);
 
 		}
 		//View = cam.getViewMatrix();
@@ -538,10 +656,10 @@ int main(int argc, char *argv[])
 			//health = health + 10;
 			//Player_Exp(&player, 10);
 
-			player.ent->body->activate(true);
+			player->ent->body->activate(true);
 			//player.ent->body->applyCentralImpulse(btVector3(0, 0, 3));
 			//player.ent->body->applyForce(btVector3(0., 0., 5.), btVector3(0., 0., 0.));
-			player.ent->body->setLinearVelocity(btVector3(0, 0, -3));
+			player->ent->body->setLinearVelocity(btVector3(0, 0, -3));
 			
 		
 			//player.ent->body->applyForce(btVector3(0,20,0),)
@@ -557,11 +675,11 @@ int main(int argc, char *argv[])
 
 		if (state[SDL_SCANCODE_C])
 		{
-			player.ent->body->activate(true);
+			player->ent->body->activate(true);
 
 
 			
-			player.ent->body->setAngularVelocity(btVector3(0, 1, 0));
+			player->ent->body->setAngularVelocity(btVector3(0, 1, 0));
 			//player.ent->body->applyTorque(btVector3(0, 2, 0));
 			//player.ent->body->getWorldTransform().getBasis().
 			//btVector3 p1;
@@ -611,10 +729,19 @@ int main(int argc, char *argv[])
 
 		testCallback call(teststr);
 
+		meleecollision meleecall(enemy);
+
 		physics->PhysicsStep(time);
 
-
-		physics->space->contactPairTest(player.ent->body, physics->bodies[0], call);
+		if (physics->Melee.size() > 0)
+		{
+			//slog("Here the melee is big\n");
+			if (enemy->alive == true)
+			{
+				physics->space->contactPairTest(physics->Melee[0], enemy->ent->body, meleecall);
+			}
+		}
+		//physics->space->contactPairTest(player->ent->body, physics->bodies[0], call);
 
 
 		if (state[SDL_SCANCODE_B])
@@ -666,8 +793,10 @@ int main(int argc, char *argv[])
 
 		Entity_DrawAll();
 
-		Entity_UpdateAll();
+		Entity_UpdateAll(physics);
 
+
+		Player_Sword(player);
 
 		//DrawScene();
 
@@ -686,7 +815,7 @@ int main(int argc, char *argv[])
 			glUseProgram(graphics3d_get_shader_program3());
 
 
-			if (player.skillpoints >= 1)
+			if (player->skillpoints >= 1)
 			{
 				button.Button_Draw();
 
@@ -708,8 +837,8 @@ int main(int argc, char *argv[])
 						if (clicked == true)
 						{
 							//printf("Health \n");
-							player.TotalHealth = player.TotalHealth + 10;
-							player.skillpoints--;
+							player->TotalHealth = player->TotalHealth + 10;
+							player->skillpoints--;
 						}
 					}
 					if (y >= 348 && y <= 373)
@@ -717,8 +846,8 @@ int main(int argc, char *argv[])
 						if (clicked == true)
 						{
 							//printf("Mana \n");
-							player.TotalMana = player.TotalMana + 10;
-							player.skillpoints--;
+							player->TotalMana = player->TotalMana + 10;
+							player->skillpoints--;
 						}
 					}
 
@@ -727,8 +856,8 @@ int main(int argc, char *argv[])
 						if (clicked == true)
 						{
 							//printf("Str \n");
-							player.strength++;
-							player.skillpoints--;
+							player->strength++;
+							player->skillpoints--;
 						}
 					}
 
@@ -737,8 +866,8 @@ int main(int argc, char *argv[])
 						if (clicked == true)
 						{
 							//printf("Spd \n");
-							player.speed++;
-							player.skillpoints--;
+							player->speed++;
+							player->skillpoints--;
 						}
 					}
 
@@ -747,8 +876,8 @@ int main(int argc, char *argv[])
 						if (clicked == true)
 						{
 							//printf("Arc \n");
-							player.arcane++;
-							player.skillpoints--;
+							player->arcane++;
+							player->skillpoints--;
 						}
 					}
 				}
@@ -789,19 +918,19 @@ int main(int argc, char *argv[])
 		glLoadIdentity();
 
 
-		drawhud(player.health, player.mana, player.experience);
+		drawhud(player->health, player->mana, player->experience);
 
 		if (hudon % 2) {
-			drawstats(player.TotalHealth, player.experience, player.TotalMana, player.level, player.skillpoints, player.strength, player.speed, player.arcane);
+			drawstats(player->TotalHealth, player->experience, player->TotalMana, player->level, player->skillpoints, player->strength, player->speed, player->arcane);
 		}
 
 
-		if (player.experience >= 100)
+		if (player->experience >= 100)
 		{
 			slog("Player Leveled");
-			player.level++;
-			player.skillpoints++;
-			player.experience = 0;
+			player->level++;
+			player->skillpoints++;
+			player->experience = 0;
 
 		}
 

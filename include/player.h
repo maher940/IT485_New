@@ -5,10 +5,27 @@
 #include "entity.h"
 #include "resourcemanager.h"
 
+
+typedef struct
+{
+	//Mesh mesh;
+
+	//glm::vec3 position;
+
+	//glm::mat4 Model;
+
+	int number = 0;
+
+}Sword_Struct;
+
+
+
 typedef struct
 {
 
 	Entity_Struct *ent;
+
+	Sword_Struct sword;
 
 	int health = 100;
 
@@ -34,6 +51,9 @@ typedef struct
 }Player_Struct;
 
 
+
+void Player_Sword(Player_Struct *player);
+
 void Player_Health(Player_Struct *player, int health);
 
 void Player_Mana(Player_Struct *player, int mana);
@@ -44,7 +64,10 @@ void Player_Pos(Player_Struct *player,glm::vec3 camerapos);
 
 void Player_Shoot(Player_Struct *player, Physics* physics, Manager *manager);
 
-
 void Player_Melee(Player_Struct *player, Physics* physics);
+
+void Player_ResetMelee(Player_Struct *player, Physics* physics);
+
+void Player_Test(Player_Struct *player);
 
 #endif __PLAYER_H__
