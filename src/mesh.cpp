@@ -3,10 +3,7 @@
 #include <algorithm>
 #include "SOIL.h"
 extern GLuint vao;
-GLuint vertexbuffer;
-GLuint normalbuffer;
-GLuint UVbuffer;
-GLuint IndexVBO;
+
 extern GLuint triangleBufferObject;
 GLuint TextureMesh;
 bool Iarray::operator==(const Iarray &other)
@@ -337,8 +334,7 @@ bool Mesh::Load_Obj(const char * path)
 
 	indices = Indices;
 	fclose(file);
-	glGenBuffers(1, &IndexVBO);
-	glGenBuffers(1, &vertexbuffer);
+	
 	//glGenBuffers(1, &normalbuffer);
 
 	return true;
@@ -347,15 +343,24 @@ bool Mesh::Load_Obj(const char * path)
 
 Mesh::Mesh()
 {}
-void Mesh::Draw_Mesh()
+
+
+
+void Mesh::SetUp_Buffer()
 {
 	
+	glGenVertexArrays(1, &this->VAO);
+	glGenBuffers(1, &this->IndexVBO);
+	glGenBuffers(1, &this->vertexbuffer);
 	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertices2.size() * sizeof(Vertex), &vertices2[0], GL_STATIC_DRAW);
+	glBindVertexArray(this->VAO);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->IndexVBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(unsigned int), &this->indices[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, this->vertexbuffer);
+	glBufferData(GL_ARRAY_BUFFER, this->vertices2.size() * sizeof(Vertex), &this->vertices2[0], GL_STATIC_DRAW);
 
 
 	//glBindBuffer(GL_ARRAY_BUFFER, HUD_UV_buf);
@@ -368,23 +373,38 @@ void Mesh::Draw_Mesh()
 
 	//glBufferData(GL_ARRAY_BUFFER, vertices2.size() * sizeof(Vertex), &vertices2[1], GL_STATIC_DRAW);
 
-	
-	glEnableVertexAttribArray(0); 
-	
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexVBO);
-	
+
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->IndexVBO);
+
 
 	glEnableVertexAttribArray(1);
 
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, Normal));
 
-	
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*)0);
+}
+
+
+
+void Mesh::Draw_Mesh()
+{
 	
-	glDisableVertexAttribArray(0);
+	
+	
+	glBindVertexArray(this->VAO);
+	
+	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
+
+	glBindVertexArray(0);
+	
+	//glDisableVertexAttribArray(0);
 
 }
 

@@ -86,7 +86,7 @@ struct meleecollision : public btCollisionWorld::ContactResultCallback
 {
 
 
-		//testCallback(Test_Struct* context) : ctext(context) {}
+	//testCallback(Test_Struct* context) : ctext(context) {}
 
 	meleecollision(Enemy_Struct* enemy) : ene(enemy) {}
 
@@ -128,10 +128,10 @@ struct procollision : public btCollisionWorld::ContactResultCallback
 
 		Enemy_Health(ene, -20);
 
-		
+
 
 		slog("Enemy Health %d \n", ene->health);
-		
+
 
 		return 0;
 	}
@@ -143,29 +143,29 @@ struct procollision : public btCollisionWorld::ContactResultCallback
 
 
 class BulletDebugDrawer_DeprecatedOpenGL : public btIDebugDraw {
-	public:
-		void SetMatrices(glm::mat4 pViewMatrix, glm::mat4 pProjectionMatrix){
-			glUseProgram(0); // Use Fixed-function pipeline (no shaders)
-			glMatrixMode(GL_MODELVIEW);
-			glLoadMatrixf(&pViewMatrix[0][0]);
-			glMatrixMode(GL_PROJECTION);
-			glLoadMatrixf(&pProjectionMatrix[0][0]);
-		}
-		virtual void drawLine(const btVector3& from,const btVector3& to,const btVector3& color){
-			glColor3f(color.x(), color.y(), color.z());
-			glBegin(GL_LINES);
-				glVertex3f(from.x(), from.y(), from.z());
-				glVertex3f(to.x(), to.y(), to.z());
-			glEnd();
-		}
-		virtual void drawContactPoint(const btVector3 &,const btVector3 &,btScalar,int,const btVector3 &){}
-		virtual void reportErrorWarning(const char *){}
-		virtual void draw3dText(const btVector3 &,const char *){}
-		virtual void setDebugMode(int p){
-			m = p;
-		}
-		int getDebugMode(void) const {return 3;}
-		int m;
+public:
+	void SetMatrices(glm::mat4 pViewMatrix, glm::mat4 pProjectionMatrix) {
+		glUseProgram(0); // Use Fixed-function pipeline (no shaders)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf(&pViewMatrix[0][0]);
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixf(&pProjectionMatrix[0][0]);
+	}
+	virtual void drawLine(const btVector3& from, const btVector3& to, const btVector3& color) {
+		glColor3f(color.x(), color.y(), color.z());
+		glBegin(GL_LINES);
+		glVertex3f(from.x(), from.y(), from.z());
+		glVertex3f(to.x(), to.y(), to.z());
+		glEnd();
+	}
+	virtual void drawContactPoint(const btVector3 &, const btVector3 &, btScalar, int, const btVector3 &) {}
+	virtual void reportErrorWarning(const char *) {}
+	virtual void draw3dText(const btVector3 &, const char *) {}
+	virtual void setDebugMode(int p) {
+		m = p;
+	}
+	int getDebugMode(void) const { return 3; }
+	int m;
 };
 
 
@@ -292,10 +292,12 @@ int main(int argc, char *argv[])
 
 	SceneInit();
 
-	SetupScene("scene.json");
+
 
 	//TestScene("test.txt");
 	Physics* physics = new Physics();;
+
+	SetupScene("scene.json", physics);
 
 	physics->PlaneBody();
 
@@ -439,7 +441,7 @@ int main(int argc, char *argv[])
 				/*
 				if (meleeheld == false)
 				{
-					Player_Melee(player, physics);
+				Player_Melee(player, physics);
 				}
 
 				meleeheld = true;
@@ -452,7 +454,7 @@ int main(int argc, char *argv[])
 				//physics->deleteMelee();
 			}
 
-		
+
 
 			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_y)
 			{
@@ -483,7 +485,7 @@ int main(int argc, char *argv[])
 		}
 
 		glClearColor(0.0, 0.0, 0.0, 0.0);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		GLfloat radius = 1.0f;
 		//GLfloat camX = sin((SDL_GetTicks()/1000) * radius);
 		//GLfloat camZ = cos((SDL_GetTicks() / 1000) * radius);
@@ -505,32 +507,32 @@ int main(int argc, char *argv[])
 			printf("y %d \n", y);
 		}
 
-		
-		//cam.cameraRotation(x, y);
+
+		cam.cameraRotation(x, y);
 		/*
 
 		//cam.CameraRot(x, y);
 		if (state[SDL_SCANCODE_A])
 		{
 
-			//printf("TEST \n");
-			cam.cameraMovement('A');
+		//printf("TEST \n");
+		cam.cameraMovement('A');
 		}
 
 		if (state[SDL_SCANCODE_D])
 		{
-			cam.cameraMovement('D');
-			//printf("TEST \n");
+		cam.cameraMovement('D');
+		//printf("TEST \n");
 		}
 		if (state[SDL_SCANCODE_W])
 		{
-			cam.cameraMovement('W');
-			//printf("TEST \n");
+		cam.cameraMovement('W');
+		//printf("TEST \n");
 		}
 		if (state[SDL_SCANCODE_S])
 		{
-			cam.cameraMovement('S');
-			//printf("TEST \n");
+		cam.cameraMovement('S');
+		//printf("TEST \n");
 		}
 		*/
 
@@ -542,10 +544,10 @@ int main(int argc, char *argv[])
 
 		if (state[SDL_SCANCODE_W])
 		{
-		
+
 			player->ent->body->activate(true);
 			Player_Movement(player, 'W');
-				
+
 		}
 
 
@@ -554,14 +556,14 @@ int main(int argc, char *argv[])
 			player->ent->body->activate(true);
 			Player_Movement(player, 'S');
 
-	
+
 		}
 		if (state[SDL_SCANCODE_A])
 		{
 			player->ent->body->activate(true);
 			Player_Movement(player, 'A');
 
-		
+
 		}
 		if (state[SDL_SCANCODE_D])
 		{
@@ -573,7 +575,7 @@ int main(int argc, char *argv[])
 		if (state[SDL_SCANCODE_SPACE])
 		{
 			player->ent->body->activate(true);
-			
+
 			Player_Movement(player, 'U');
 
 		}
@@ -593,7 +595,7 @@ int main(int argc, char *argv[])
 		newpos.y = origin.getY();
 
 		newpos.z = origin.getZ();
-		
+
 		//cam.camerafront = newpos;
 
 		cam.camerapos = newpos;
@@ -629,7 +631,7 @@ int main(int argc, char *argv[])
 		//View = cam.getViewMatrix();
 		//Projection = cam.getProjectionMatrix();
 
-		
+
 
 
 		cam.computeMatricesFromInputs();
@@ -706,19 +708,19 @@ int main(int argc, char *argv[])
 		/*
 		for (int i = 0; i < bodies.size(); i++)
 		{
-			if (bodies[i]->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
-			{
-				renderPlane(bodies[i]);
-			}
-			else if (bodies[i]->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
-				renderSphere(bodies[i]);
+		if (bodies[i]->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
+		{
+		renderPlane(bodies[i]);
+		}
+		else if (bodies[i]->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
+		renderSphere(bodies[i]);
 
 
 		}
 		*/
 		//spSlider6Dof->setAngularLowerLimit(btVector3(0, 1, 0));
 		//spSlider6Dof->setAngularUpperLimit(btVector3(0, -1, 0));
-		player->ent->body->setAngularFactor(btVector3(0, 0, 0));
+		//player->ent->body->setAngularFactor(btVector3(0, 0, 0));
 		time = SDL_GetTicks() / 1000;
 
 		if (state[SDL_SCANCODE_J])
@@ -732,8 +734,8 @@ int main(int argc, char *argv[])
 			//player.ent->body->applyCentralImpulse(btVector3(0, 0, 3));
 			//player.ent->body->applyForce(btVector3(0., 0., 5.), btVector3(0., 0., 0.));
 			player->ent->body->setLinearVelocity(btVector3(0, 0, -3));
-			
-		
+
+
 			//player.ent->body->applyForce(btVector3(0,20,0),)
 			//player.ent->body->applyCentralForce(btVector3(0, 0, 10));
 			//slog("number %f \n", physics.callback.hithum);
@@ -741,17 +743,17 @@ int main(int argc, char *argv[])
 
 		}
 
-	
-		
+
+
 
 
 		if (state[SDL_SCANCODE_C])
 		{
 			player->ent->body->activate(true);
 
-			
 
-			
+
+
 			//player->ent->body->setAngularVelocity(btVector3(0, 1, 0));
 			//player->ent->body->applyTorque(btVector3(0, 2, 0));
 			//player.ent->body->getWorldTransform().getBasis().
@@ -759,9 +761,9 @@ int main(int argc, char *argv[])
 			//p1.rotate(btVector3(3, 0, 0), 10);
 			//player.ent->Model = glm::rotate(glm::mat4(), 1.0f, glm::vec3(0,1,0));
 
-			
+
 		}
-		
+
 
 		if (state[SDL_SCANCODE_V])
 		{
@@ -798,7 +800,7 @@ int main(int argc, char *argv[])
 
 
 		}
-		
+
 
 		testCallback call(teststr);
 
@@ -826,7 +828,7 @@ int main(int argc, char *argv[])
 
 		}
 
-	
+
 		//slog("test %f \n", test);
 
 		//physics.CollisionTest(player.ent->body);
@@ -835,7 +837,7 @@ int main(int argc, char *argv[])
 
 		//player.ent->body->
 
-		
+
 
 
 
@@ -845,7 +847,7 @@ int main(int argc, char *argv[])
 
 
 
-	
+
 
 
 		//physics.space->contactTest(player.ent->body, physics.callback);
@@ -863,7 +865,8 @@ int main(int argc, char *argv[])
 		//mesh2.Draw_Mesh();
 		//hud.Draw_HUD();
 		*/
-
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 		Entity_DrawAll();
 
 		Entity_UpdateAll(physics);
@@ -871,9 +874,7 @@ int main(int argc, char *argv[])
 
 		Player_Sword(player);
 
-		//DrawScene();
-
-
+		DrawScene();
 
 		mydebugdrawer.SetMatrices(View, Projection);
 		physics->space->debugDrawWorld();
@@ -881,6 +882,11 @@ int main(int argc, char *argv[])
 
 		if (hudon % 2 != 0)
 		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+			//this should be disabled for UI and HUD stuffs, but enabled for 3D
+			glDisable(GL_DEPTH_TEST);
 			glUseProgram(graphics3d_get_shader_program2());
 
 			hud.Draw_HUD();
@@ -955,8 +961,11 @@ int main(int argc, char *argv[])
 					}
 				}
 			}
+			glDisable(GL_BLEND);
 
 
+			glEnable(GL_DEPTH_TEST);
+			glDepthFunc(GL_LESS);
 
 		}
 
@@ -990,10 +999,15 @@ int main(int argc, char *argv[])
 		glPushMatrix();
 		glLoadIdentity();
 
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+		//this should be disabled for UI and HUD stuffs, but enabled for 3D
+		glDisable(GL_DEPTH_TEST);
 		drawhud(player->health, player->mana, player->experience);
 
 		if (hudon % 2) {
+
 			drawstats(player->TotalHealth, player->experience, player->TotalMana, player->level, player->skillpoints, player->strength, player->speed, player->arcane);
 		}
 
@@ -1006,6 +1020,11 @@ int main(int argc, char *argv[])
 			player->experience = 0;
 
 		}
+		glDisable(GL_BLEND);
+
+
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 
 
 
@@ -1020,7 +1039,7 @@ int main(int argc, char *argv[])
 		graphics3d_next_frame();
 
 
-		
+
 	}
 
 

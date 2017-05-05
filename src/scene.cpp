@@ -64,7 +64,7 @@ void SceneClose()
 
 
 }
-bool SetupScene(const char * path)
+bool SetupScene(const char * path, Physics* physics)
 {
 
 
@@ -122,10 +122,22 @@ bool SetupScene(const char * path)
 
 			 scene.ModularList[i].model.Load_Obj(str.c_str());
 
+			 scene.ModularList[i].model.SetUp_Buffer();
 
 			 scene.ModularList[i].position = temp_pos;
 
 			 scene.ModularList[i].ModelMat = glm::translate(glm::mat4(), scene.ModularList[i].position);
+
+			 //scene.ModularList[i].body = physics->MeshRigidBody(scene.ModularList[i].position, 500, scene.ModularList[i].model);
+
+			 scene.ModularList[i].body = physics->TriRigidBody(scene.ModularList[i].position, 0, scene.ModularList[i].model);
+
+
+
+
+			 scene.ModularList[i].body->setGravity(btVector3(0, 0, 0));
+
+
 
 
 			 if (str == "C:\\Users\\Jacob\\IT485\\models\\My_Model\\cube.obj")
@@ -135,7 +147,7 @@ bool SetupScene(const char * path)
 
 			 else
 			 {
-				 scene.ModularList[i].type = "none";
+				 scene.ModularList[i].type = "column";
 			 }
 
 		 }

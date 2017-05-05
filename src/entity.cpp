@@ -75,7 +75,22 @@ void Entity_Draw(Entity_Struct *ent)
 
 
 	//float colors[] = { 1.0,0.0,0.0};
-	glm::vec3 colors(1.0, 0.0, 0.0);
+	glm::vec3 colors;
+
+	if (ent->type == "bullet")
+	{
+		 colors = glm::vec3(1.0, 0.0, 0.0);
+	}
+	if (ent->type == "none")
+	{
+		colors = glm::vec3(0.0, 0.0, 1.0);
+	}
+	else
+	{
+		colors = glm::vec3(0.0, 1.0, 0.0);
+	}
+
+	
 	glUniform3fv(Color, 1, glm::value_ptr(colors));
 
 	ent->mesh.Draw_Mesh();

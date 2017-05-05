@@ -54,7 +54,11 @@ class Mesh
 
 public:
 	
-
+	GLuint VAO;
+	GLuint vertexbuffer;
+	GLuint normalbuffer;
+	GLuint UVbuffer;
+	GLuint IndexVBO;
 	std::vector<Vertex> vertices;
 	std::vector<Vertex> vertices2;
 	std::vector<unsigned int> indices;
@@ -81,6 +85,7 @@ public:
 	bool Load_Obj(const char * path);
 	void Draw_Mesh();
 	void TextureLoad();
+	void SetUp_Buffer();
 	void Draw_Quad();
 
 };

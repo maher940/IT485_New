@@ -21,7 +21,7 @@ Physics::Physics()
 
 	for (int i = 0; i < maxentities; i++)
 	{
-		
+
 		btTransform t;
 
 		t.setIdentity();
@@ -37,7 +37,7 @@ Physics::Physics()
 		btRigidBody* body = new btRigidBody(info);
 		bodies.push_back(body);
 	}
-	
+
 };
 
 
@@ -57,8 +57,8 @@ btRigidBody* Physics::PlaneBody()
 
 	t.setOrigin(btVector3(0, -8, 0));
 
-	btStaticPlaneShape* plane = new btStaticPlaneShape(btVector3(0, 1, 0),0);
-	
+	btStaticPlaneShape* plane = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+
 
 	btMotionState* motion = new btDefaultMotionState(t);
 
@@ -132,7 +132,7 @@ btRigidBody* Physics::CubeRigidBodyTR(glm::vec3 size, glm::vec3 position, float 
 
 	btRigidBody* body = new btRigidBody(info);
 
-	
+
 
 	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 	space->addRigidBody(body);
@@ -146,7 +146,82 @@ btRigidBody* Physics::CubeRigidBodyTR(glm::vec3 size, glm::vec3 position, float 
 }
 
 
+btRigidBody* Physics::TriRigidBody(glm::vec3 position, float mass, Mesh mesh)
+{
 
+
+
+	btTransform t;
+
+	t.setIdentity();
+
+	t.setOrigin(btVector3(position.x, position.y, position.z));
+
+	//btBoxShape* cube = new btBoxShape(btVector3(size.x / 2.0, size.y / 2.0, size.z / 2.0));
+
+	btTriangleMesh *mTriMesh = new btTriangleMesh();
+
+
+	int numtri = mesh.indices.size() / 3;
+
+
+	for (int i = 0; i < numtri; i++)
+	{
+
+
+		int j = i * 3;
+
+		btVector3 tri1;
+
+		int tr1 = mesh.indices[j];
+		
+
+		tri1.setX(mesh.vertices2[tr1].Position.x);
+		tri1.setY(mesh.vertices2[tr1].Position.y);
+		tri1.setZ(mesh.vertices2[tr1].Position.z);
+
+		btVector3 tri2;
+
+		int tr2 = mesh.indices[j +1];
+
+		tri2.setX(mesh.vertices2[tr2].Position.x);
+		tri2.setY(mesh.vertices2[tr2].Position.y);
+		tri2.setZ(mesh.vertices2[tr2].Position.z);
+
+		btVector3 tri3;
+
+		int tr3 = mesh.indices[j+2];
+
+		tri3.setX(mesh.vertices2[tr3].Position.x);
+		tri3.setY(mesh.vertices2[tr3].Position.y);
+		tri3.setZ(mesh.vertices2[tr3].Position.z);
+
+		mTriMesh->addTriangle(tri1, tri2, tri3);
+	}
+
+
+	btCollisionShape *cube = new btBvhTriangleMeshShape(mTriMesh, true);
+
+
+	btVector3 inertia(0, 0, 0);
+
+	if (mass != 0.0)
+	{
+		//cube->calculateLocalInertia(mass, inertia);
+	}
+
+	btMotionState* motion = new btDefaultMotionState(t);
+
+	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, cube, inertia);
+
+	btRigidBody* body = new btRigidBody(info);
+	space->addRigidBody(body);
+
+	//bodies.push_back(body);
+
+	return body;
+
+}
 
 
 
@@ -171,20 +246,20 @@ btRigidBody* Physics::MeshRigidBody(glm::vec3 position, float mass, Mesh mesh)
 		btVector3 position;
 
 		//mesh.indices[i];
-		
+
 		unsigned int j = mesh.indices[i];
 
 		//float w = mesh.vertices2[j].Position.x;
 
 		//position.x = w;
-		 // position.x = mesh.vertices2[j].Position.x;
-		  //position.y = mesh.vertices2[j].Position.y;
-		  //position.z = mesh.vertices2[j].Position.z;
+		// position.x = mesh.vertices2[j].Position.x;
+		//position.y = mesh.vertices2[j].Position.y;
+		//position.z = mesh.vertices2[j].Position.z;
 
 		position.setX(mesh.vertices2[j].Position.x);
 		position.setY(mesh.vertices2[j].Position.y);
 		position.setZ(mesh.vertices2[j].Position.z);
-		  cube->addPoint(position);
+		cube->addPoint(position);
 
 	}
 
@@ -254,7 +329,7 @@ void Physics::CollisionTest(btRigidBody* body)
 
 	space->contactTest(body, callback);
 
-	
+
 
 }
 
@@ -272,7 +347,7 @@ void Physics::deleteRigidBody()
 	for (int i = 0; i < bodies.size(); i++)
 	{
 
-		
+
 		btMotionState* motionState = bodies[i]->getMotionState();
 		btCollisionShape* shape = bodies[i]->getCollisionShape();
 		space->removeCollisionObject(bodies[i]);
@@ -292,9 +367,8 @@ void Physics::deleteRigidBodyOne(int i)
 	/*
 	btMotionState* motionState = bodies[i]->getMotionState();
 	btCollisionShape* shape = bodies[i]->getCollisionShape();
-	
-	delete bodies[i];
 
+	delete bodies[i];
 	//bodies.erase(bodies.begin() + i);
 	delete shape;
 	delete motionState;

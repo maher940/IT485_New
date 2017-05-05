@@ -9,6 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <GL\glew.h>
 #include "mesh.h"
+#include "physics.h"
 
 
 typedef struct
@@ -19,8 +20,11 @@ typedef struct
 	glm::mat4 ModelMat;
 	int inuse;
 	std::string type;
+	btRigidBody* body;
 
 }Modular_Struct;
+
+
 
 
 void Draw_Piece(Modular_Struct* piece);

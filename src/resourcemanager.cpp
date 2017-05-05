@@ -12,7 +12,7 @@ Manager* getmanager()
 
 void Entity_Init()
 {
-	
+
 
 	if (manager.numentities == maxentities)
 	{
@@ -29,7 +29,7 @@ void Entity_Init()
 
 	}
 
-	
+
 	atexit(Entity_Close);
 }
 
@@ -72,7 +72,7 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 	int i;
 
-	
+
 
 	if (manager.numentities == maxentities)
 	{
@@ -106,7 +106,7 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 			manager.entityList[i].inuse = 1;
 
 			manager.entityList[i].mesh.Load_Obj(path);
-
+			manager.entityList[i].mesh.SetUp_Buffer();
 			manager.entityList[i].entity_num = i;
 
 			manager.entityList[i].position = position;
@@ -136,17 +136,17 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 
 
-			
+
 			if (!std::strcmp(path, "C:\\Users\\Jacob\\IT485\\models\\My_Model\\monkey.obj"))
 			{
-				//slog("is player \n");
+				slog("is player \n");
 				manager.entityList[i].type = "player";
-				
+
 			}
 
 			else if (!std::strcmp(path, "C:\\Users\\Jacob\\IT485\\models\\My_Model\\cube.obj"))
 			{
-				//slog("is bullet \n");
+				slog("is bullet \n");
 				manager.entityList[i].type = "bullet";
 			}
 			else {
@@ -163,7 +163,7 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 	return &manager.entityList[i];
 
-	
+
 
 }
 void Entity_UpdateAll(Physics* physics)
@@ -182,10 +182,10 @@ void Entity_UpdateAll(Physics* physics)
 
 		if (manager.entityList[i].timer > 200)
 		{
-			
+
 			Entity_Free(&manager.entityList[i]);
 			physics->bodies;
-			physics->deleteRigidBodyOne(i+1);
+			physics->deleteRigidBodyOne(i + 1);
 			physics->bodies;
 			continue;
 		}
@@ -220,9 +220,9 @@ void Entity_DrawAll()
 		Entity_Draw(&manager.entityList[i]);
 
 		//glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &vp[0][0]);
-		
+
 	}
-	
+
 
 }
 

@@ -9,42 +9,27 @@
 void Player_Sword(Player_Struct *player)
 {
 	/*
-	
+
 	glm::vec3 spawnpos;
-
 	btTransform t;
-
 	player->ent->body->getMotionState()->getWorldTransform(t);
-
 	btVector3 forward = t.getBasis().getColumn(2);
 	btVector3 right = t.getBasis().getColumn(0);
-
 	btVector3 origin = t.getOrigin();
-
-
 	spawnpos.x = origin.getX();
 	spawnpos.y = origin.getY();
 	spawnpos.z = origin.getZ();
-
 	//spawnpos.z -= 5;
-
-
 	spawnpos.x += -forward.getX();
 	spawnpos.y += -forward.getY();
 	spawnpos.z += -forward.getZ();
-
 	spawnpos.x += -right.getX() + 3;
 	spawnpos.y += -right.getY() + 3;
 	spawnpos.z += -right.getZ() + 3;
 
-	
 	player->sword.mesh.Load_Obj("sword3.obj");
-
-
 	player->sword.position = spawnpos;
-
 	player->sword.Model = glm::translate(glm::mat4(), player->sword.position);
-
 	player->sword.mesh.Draw_Mesh();
 	*/
 
@@ -61,9 +46,9 @@ void Player_Test(Player_Struct *player)
 
 void Player_Health(Player_Struct *player, int health)
 {
-	
+
 	player->health += health;
-	
+
 }
 
 void Player_Mana(Player_Struct *player, int mana)
@@ -86,7 +71,7 @@ void Player_Pos(Player_Struct *player, glm::vec3 camerapos)
 
 	player->ent->body->getWorldTransform().setOrigin(btVector3(camerapos.x,
 
-		player->ent->body->getWorldTransform().getOrigin().getY(), 
+		player->ent->body->getWorldTransform().getOrigin().getY(),
 
 		camerapos.z
 	));
@@ -104,11 +89,11 @@ void Player_Movement(Player_Struct *player, char key)
 	if (key == 'W')
 	{
 		//player->velocity.z = -5;
-	
-		player->ent->body->setLinearVelocity(btVector3(player->ent->body->getLinearVelocity().getX(), 
+
+		player->ent->body->setLinearVelocity(btVector3(player->ent->body->getLinearVelocity().getX(),
 
 			player->ent->body->getLinearVelocity().getY(),
-			
+
 			-5.0f));
 
 	}
@@ -165,7 +150,7 @@ void Player_Movement(Player_Struct *player, char key)
 
 	//player->velocity = glm::vec3(0, 0, 0);
 }
-void Player_Shoot(Player_Struct *player,Physics* physics, Manager *manager)
+void Player_Shoot(Player_Struct *player, Physics* physics, Manager *manager)
 {
 
 	glm::vec3 spawnpos;
@@ -174,12 +159,12 @@ void Player_Shoot(Player_Struct *player,Physics* physics, Manager *manager)
 
 	player->ent->body->getMotionState()->getWorldTransform(t);
 
-	
+
 
 	btVector3 forward = t.getBasis().getColumn(2);
 
 	btVector3 origin = t.getOrigin();
-	
+
 
 	spawnpos.x = origin.getX();
 	spawnpos.y = origin.getY();
@@ -187,7 +172,7 @@ void Player_Shoot(Player_Struct *player,Physics* physics, Manager *manager)
 
 	//spawnpos.z -= 5;
 
-	
+
 	spawnpos.x += -forward.getX();
 	spawnpos.y += -forward.getY();
 	spawnpos.z += -forward.getZ();
@@ -202,7 +187,7 @@ void Player_Shoot(Player_Struct *player,Physics* physics, Manager *manager)
 		}
 		else
 		{
-			
+
 			slog("Fine added \n");
 			Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\cube.obj", spawnpos, physics)->body->setLinearVelocity(-forward * 20);
 			slog("Ent Nums %d \n", manager->numentities);
@@ -232,7 +217,7 @@ void Player_Melee(Player_Struct *player, Physics* physics)
 
 	btVector3 origin = t.getOrigin();
 
-	
+
 
 	spawnpos.x = origin.getX();
 	spawnpos.y = origin.getY();

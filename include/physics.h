@@ -13,8 +13,6 @@
 
 typedef struct
 {
-
-
 	int points = 0;
 }Test_Struct;
 
@@ -116,6 +114,7 @@ public:
 	btRigidBody* CubeRigidBody(glm::vec3 size, glm::vec3 position, float mass);
 	btRigidBody* CubeRigidBodyTR(glm::vec3 size, glm::vec3 position, float mass, btQuaternion* quat);
 	btRigidBody* MeshRigidBody(glm::vec3 position, float mass, Mesh mesh);
+	btRigidBody* TriRigidBody(glm::vec3 position, float mass, Mesh mesh);
 	btRigidBody* PlaneBody();
 
 	void Physics::deleteRigidBody();

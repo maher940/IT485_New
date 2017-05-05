@@ -42,7 +42,7 @@ void SceneInit();
 
 void SceneClose();
 
-bool SetupScene(const char * path);
+bool SetupScene(const char * path, Physics* physics);
 
 void DrawScene();
 
