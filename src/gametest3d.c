@@ -347,6 +347,7 @@ int main(int argc, char *argv[])
 
 	Button button2;
 
+
 	button2.Button_Setup(glm::vec3(-0.1f, 0.22, 0.0f), glm::vec3(-0.04, 0.22, 0.0f), glm::vec3(-0.1, 0.16, 0.0f), glm::vec3(-0.04, 0.16, 0.0f));
 
 	//Button button3;
@@ -426,7 +427,30 @@ int main(int argc, char *argv[])
 				physics->deleteMelee();
 			}
 
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_c)
+			{
 
+				player->ent->body->activate(true);
+
+
+
+
+				player->ent->body->setAngularVelocity(btVector3(0, 1, 0));
+				/*
+				if (meleeheld == false)
+				{
+					Player_Melee(player, physics);
+				}
+
+				meleeheld = true;
+				*/
+			}
+			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_c)
+			{
+				player->ent->body->setAngularVelocity(btVector3(0, 0, 0));
+				//meleeheld = false;
+				//physics->deleteMelee();
+			}
 
 		
 
@@ -509,6 +533,51 @@ int main(int argc, char *argv[])
 			//printf("TEST \n");
 		}
 		*/
+
+
+
+
+
+
+
+		if (state[SDL_SCANCODE_W])
+		{
+		
+			player->ent->body->activate(true);
+			Player_Movement(player, 'W');
+				
+		}
+
+
+		if (state[SDL_SCANCODE_S])
+		{
+			player->ent->body->activate(true);
+			Player_Movement(player, 'S');
+
+	
+		}
+		if (state[SDL_SCANCODE_A])
+		{
+			player->ent->body->activate(true);
+			Player_Movement(player, 'A');
+
+		
+		}
+		if (state[SDL_SCANCODE_D])
+		{
+			player->ent->body->activate(true);
+			Player_Movement(player, 'D');
+
+		}
+
+		if (state[SDL_SCANCODE_SPACE])
+		{
+			player->ent->body->activate(true);
+			
+			Player_Movement(player, 'U');
+
+		}
+
 
 		btTransform t;
 
@@ -647,6 +716,9 @@ int main(int argc, char *argv[])
 
 		}
 		*/
+		//spSlider6Dof->setAngularLowerLimit(btVector3(0, 1, 0));
+		//spSlider6Dof->setAngularUpperLimit(btVector3(0, -1, 0));
+		player->ent->body->setAngularFactor(btVector3(0, 0, 0));
 		time = SDL_GetTicks() / 1000;
 
 		if (state[SDL_SCANCODE_J])
@@ -677,10 +749,11 @@ int main(int argc, char *argv[])
 		{
 			player->ent->body->activate(true);
 
+			
 
 			
-			player->ent->body->setAngularVelocity(btVector3(0, 1, 0));
-			//player.ent->body->applyTorque(btVector3(0, 2, 0));
+			//player->ent->body->setAngularVelocity(btVector3(0, 1, 0));
+			//player->ent->body->applyTorque(btVector3(0, 2, 0));
 			//player.ent->body->getWorldTransform().getBasis().
 			//btVector3 p1;
 			//p1.rotate(btVector3(3, 0, 0), 10);
@@ -688,7 +761,7 @@ int main(int argc, char *argv[])
 
 			
 		}
-
+		
 
 		if (state[SDL_SCANCODE_V])
 		{

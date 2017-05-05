@@ -57,7 +57,8 @@ btRigidBody* Physics::PlaneBody()
 
 	t.setOrigin(btVector3(0, -8, 0));
 
-	btStaticPlaneShape* plane = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+	btStaticPlaneShape* plane = new btStaticPlaneShape(btVector3(0, 1, 0),0);
+	
 
 	btMotionState* motion = new btDefaultMotionState(t);
 

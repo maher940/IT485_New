@@ -27,6 +27,8 @@ typedef struct
 
 	Sword_Struct sword;
 
+	glm::vec3 velocity;
+
 	int health = 100;
 
 	int mana = 100;
@@ -69,5 +71,7 @@ void Player_Melee(Player_Struct *player, Physics* physics);
 void Player_ResetMelee(Player_Struct *player, Physics* physics);
 
 void Player_Test(Player_Struct *player);
+
+void Player_Movement(Player_Struct *player, char key);
 
 #endif __PLAYER_H__

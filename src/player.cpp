@@ -95,7 +95,76 @@ void Player_Pos(Player_Struct *player, glm::vec3 camerapos)
 
 }
 
+void Player_Movement(Player_Struct *player, char key)
+{
 
+	//setAngularFactor(btVector3(0, 1, 0))
+	player->ent->body->setAngularFactor(btVector3(0, 0, 0));
+
+	if (key == 'W')
+	{
+		//player->velocity.z = -5;
+	
+		player->ent->body->setLinearVelocity(btVector3(player->ent->body->getLinearVelocity().getX(), 
+
+			player->ent->body->getLinearVelocity().getY(),
+			
+			-5.0f));
+
+	}
+	if (key == 'S')
+	{
+		//player->velocity.z = 5;
+		player->ent->body->setLinearVelocity(btVector3(player->ent->body->getLinearVelocity().getX(),
+
+			player->ent->body->getLinearVelocity().getY(),
+
+			5.0f));
+	}
+	if (key == 'A')
+	{
+		//player->velocity.x = -5;
+		player->ent->body->setLinearVelocity(btVector3(-5.0f,
+
+			player->ent->body->getLinearVelocity().getY(),
+
+			player->ent->body->getLinearVelocity().getZ()));
+	}
+	if (key == 'D')
+	{
+		//player->velocity.x = 5;
+		player->ent->body->setLinearVelocity(btVector3(5.0f,
+
+			player->ent->body->getLinearVelocity().getY(),
+
+			player->ent->body->getLinearVelocity().getZ()));
+
+
+	}
+
+	if (key == 'U')
+	{
+		//slog("INHERE\n");
+		//player->ent->body->applyForce(btVector3(0, 5, 0), btVector3(0, 0, 0));
+		//player->velocity.y = 5;
+
+		player->ent->body->setLinearVelocity(btVector3(player->ent->body->getLinearVelocity().getX(),
+
+			5.0f,
+
+			player->ent->body->getLinearVelocity().getZ()));
+	}
+	//btVector3 btvelocity;
+
+	//btvelocity.setX(player->velocity.x);
+	//btvelocity.setY(player->velocity.y);
+	//btvelocity.setZ(player->velocity.z);
+
+
+	//player->ent->body->setLinearVelocity(btvelocity);
+
+	//player->velocity = glm::vec3(0, 0, 0);
+}
 void Player_Shoot(Player_Struct *player,Physics* physics, Manager *manager)
 {
 

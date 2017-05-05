@@ -126,9 +126,9 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 			depth = manager.entityList[i].mesh.zdis;
 
-			//manager.entityList[i].body = physics->CubeRigidBody(glm::vec3(width, height, depth), position, 1);
+			manager.entityList[i].body = physics->CubeRigidBody(glm::vec3(width, height, depth), position, 1);
 
-			manager.entityList[i].body = physics->MeshRigidBody(position, 1, manager.entityList[i].mesh);
+			//manager.entityList[i].body = physics->MeshRigidBody(position, 1, manager.entityList[i].mesh);
 
 			physics->bodies[i + 1] = manager.entityList[i].body;
 
