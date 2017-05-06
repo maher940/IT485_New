@@ -168,7 +168,6 @@ btRigidBody* Physics::TriRigidBody(glm::vec3 position, float mass, Mesh mesh)
 	for (int i = 0; i < numtri; i++)
 	{
 
-
 		int j = i * 3;
 
 		btVector3 tri1;
@@ -217,7 +216,7 @@ btRigidBody* Physics::TriRigidBody(glm::vec3 position, float mass, Mesh mesh)
 	btRigidBody* body = new btRigidBody(info);
 	space->addRigidBody(body);
 
-	//bodies.push_back(body);
+	scenerigidbody.push_back(body);
 
 	return body;
 
@@ -355,6 +354,17 @@ void Physics::deleteRigidBody()
 		delete shape;
 		delete motionState;
 
+	}
+
+	for (int i = 0; i < scenerigidbody.size(); i++)
+	{
+		
+		btMotionState* motionState = scenerigidbody[i]->getMotionState();
+		btCollisionShape* shape = scenerigidbody[i]->getCollisionShape();
+		space->removeCollisionObject(scenerigidbody[i]);
+		delete scenerigidbody[i];
+		delete shape;
+		delete motionState;
 	}
 
 }

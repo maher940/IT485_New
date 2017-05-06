@@ -309,6 +309,8 @@ int main(int argc, char *argv[])
 
 	player->ent = Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\monkey.obj", glm::vec3(0, 5, 0), physics);
 
+	player->ent->body->setAngularFactor(btVector3(0, 0, 0));
+
 	//player->ent->type = "player";
 
 	Enemy_Struct* enemy = new Enemy_Struct();

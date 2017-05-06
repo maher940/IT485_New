@@ -84,7 +84,7 @@ void Player_Movement(Player_Struct *player, char key)
 {
 
 	//setAngularFactor(btVector3(0, 1, 0))
-	player->ent->body->setAngularFactor(btVector3(0, 0, 0));
+	
 
 	if (key == 'W')
 	{

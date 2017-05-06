@@ -93,7 +93,7 @@ public:
 	std::vector<btRigidBody*>bodies;
 
 	
-	
+	std::vector<btRigidBody*>scenerigidbody;
 
 	std::vector<btRigidBody*>Melee;
 
