@@ -67,7 +67,7 @@ void Entity_Close()
 
 }
 
-Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physics)
+Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physics, glm::vec3 color)
 {
 
 	int i;
@@ -115,7 +115,7 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 			manager.entityList[i].forward.z -= 1;
 
 			manager.entityList[i].Model = glm::translate(glm::mat4(), position);
-
+			manager.entityList[i].color = color;
 			float width;
 			float height;
 			float depth;
@@ -170,7 +170,6 @@ void Entity_UpdateAll(Physics* physics)
 {
 
 	int i;
-
 
 	for (i = 0; i < maxentities; i++)
 	{

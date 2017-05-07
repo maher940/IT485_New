@@ -121,7 +121,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>C:\Users\Jacob\Downloads\bullet3-master %281%29\bullet3-master\src;C:\Users\Jacob\BUILD_BULLET\src;C:\Users\Jacob\IT485\include;C:\Users\Jacob\IT485\myproject\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Jacob\BUILD_BULLET\src;C:\Users\Jacob\Downloads\bullet3-master %281%29\bullet3-master\src;C:\Users\Jacob\IT485\include;C:\Users\Jacob\IT485\myproject\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>

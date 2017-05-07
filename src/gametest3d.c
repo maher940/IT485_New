@@ -307,7 +307,7 @@ int main(int argc, char *argv[])
 
 	Player_Struct* player = new Player_Struct();
 
-	player->ent = Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\monkey.obj", glm::vec3(0, 5, 0), physics);
+	player->ent = Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\monkey.obj", glm::vec3(0, 5, 0), physics, glm::vec3(1,0,0));
 
 	player->ent->body->setAngularFactor(btVector3(0, 0, 0));
 
@@ -315,7 +315,7 @@ int main(int argc, char *argv[])
 
 	Enemy_Struct* enemy = new Enemy_Struct();
 
-	enemy->ent = Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\enemy.obj", glm::vec3(0, 5, -5), physics);
+	enemy->ent = Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\enemy.obj", glm::vec3(0, 5, -15), physics, glm::vec3(0,1,0));
 
 	//enemy->ent->type = "player";
 
@@ -391,7 +391,7 @@ int main(int argc, char *argv[])
 
 	while (bGameLoopRunning)
 	{
-
+		//SDL_SetRelativeMouseMode(SDL_TRUE);
 		clicked = false;
 
 		if (SDL_PollEvent(&e))
@@ -510,7 +510,7 @@ int main(int argc, char *argv[])
 		}
 
 
-		cam.cameraRotation(x, y);
+		cam.cameraRotation(x, y, player);
 		/*
 
 		//cam.CameraRot(x, y);
@@ -540,7 +540,12 @@ int main(int argc, char *argv[])
 
 
 
+		Enemy_PlayDis(enemy, player);
 
+		if (enemy->state == 1)
+		{
+			Enemy_Chase(enemy, player);
+		}
 
 
 
@@ -636,7 +641,7 @@ int main(int argc, char *argv[])
 
 
 
-		cam.computeMatricesFromInputs();
+		cam.computeMatricesFromInputs(player);
 
 
 		//Player_Pos(&player, cam.camerapos);
@@ -1039,7 +1044,8 @@ int main(int argc, char *argv[])
 
 
 		graphics3d_next_frame();
-
+		//SDL_WarpMouseInWindow(getwindow(), 1024/2,768/2);
+		//SDL_PumpEvents();
 
 
 	}

@@ -49,11 +49,9 @@ void Camera::cameraMovement(char key)
 	}
 }
 bool firstMouse = true;
-void Camera::cameraRotation(float x, float y)
+void Camera::cameraRotation(float x, float y, Player_Struct* player)
 {
-
-
-
+	/*
 	if (firstMouse)
 	{
 		lastX = x;
@@ -90,21 +88,21 @@ void Camera::cameraRotation(float x, float y)
 
 
 
-	glm::vec3 direction(
-		cos(glm::radians(yaw)) * cos(glm::radians(pitch)),
-		sin(glm::radians(pitch)),
-		sin(glm::radians(yaw)) * cos(glm::radians(pitch))
-	);
+	//glm::vec3 direction(
+		//cos(glm::radians(yaw)) * cos(glm::radians(pitch)),
+		//sin(glm::radians(pitch)),
+		//sin(glm::radians(yaw)) * cos(glm::radians(pitch))
+	//);
 
-	camerafront = glm::normalize(direction);
-	SDL_Window *window = getwindow();
+	//camerafront = glm::normalize(direction);
+	//SDL_Window *window = getwindow();
 	
-
+	//camerafront = player->ent->forward;
 }
 
-void Camera::computeMatricesFromInputs()
+void Camera::computeMatricesFromInputs(Player_Struct* player)
 {
-	
+
 	ViewMatrix = glm::lookAt(camerapos, camerapos + camerafront, cameraup);
 
 	ProjectionMatrix = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);

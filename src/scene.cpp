@@ -71,7 +71,8 @@ bool SetupScene(const char * path, Physics* physics)
 	std::ifstream ifs(path);
 
 	std::string str;
-
+	
+	std::string fullpath;
 	
 	// ifs >> str;
 
@@ -86,6 +87,7 @@ bool SetupScene(const char * path, Physics* physics)
 		 return false;
 	 }
 	 
+	std::string pathstr = scene.j["path"];
 
 	 for (int i = 0; i < scene.j["objects"].size(); i++)
 	 {
@@ -96,6 +98,8 @@ bool SetupScene(const char * path, Physics* physics)
 		 temp_pos.x = scene.j["objects"][i]["vector"][0];
 		 temp_pos.y = scene.j["objects"][i]["vector"][1];
 		 temp_pos.z = scene.j["objects"][i]["vector"][2];
+
+		 fullpath = pathstr + str;
 
 		 if (scene.ModularList[i].inuse)
 		 {
@@ -120,7 +124,7 @@ bool SetupScene(const char * path, Physics* physics)
 
 			 scene.ModularList[i].inuse = 1;
 
-			 scene.ModularList[i].model.Load_Obj(str.c_str());
+			 scene.ModularList[i].model.Load_Obj(fullpath.c_str());
 
 			 scene.ModularList[i].model.SetUp_Buffer();
 

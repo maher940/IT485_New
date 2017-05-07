@@ -26,6 +26,8 @@ typedef struct
 
 	glm::mat4 Model;
 
+	glm::vec3 color;
+
 	std::string type;
 
 	btRigidBody* body;

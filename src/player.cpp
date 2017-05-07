@@ -189,7 +189,7 @@ void Player_Shoot(Player_Struct *player, Physics* physics, Manager *manager)
 		{
 
 			slog("Fine added \n");
-			Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\cube.obj", spawnpos, physics)->body->setLinearVelocity(-forward * 20);
+			Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\cube.obj", spawnpos, physics, glm::vec3(0,1,0))->body->setLinearVelocity(-forward * 20);
 			slog("Ent Nums %d \n", manager->numentities);
 			break;
 		}

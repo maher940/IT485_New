@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 #include<glm\mat4x4.hpp>
-
+#include "player.h"
 
 
 
@@ -27,11 +27,11 @@ public:
 	Camera();
 
 	
-	void computeMatricesFromInputs();
+	void computeMatricesFromInputs(Player_Struct* player);
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix();
 	void cameraMovement(char key);
-	void cameraRotation(float x, float y);
+	void cameraRotation(float x, float y, Player_Struct* player);
 
 };
 

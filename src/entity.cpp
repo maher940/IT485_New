@@ -25,11 +25,19 @@ void Entity_Update(Entity_Struct *ent)
 	ent->body->getMotionState()->getWorldTransform(t);
 
 	btVector3 origin = t.getOrigin();
+
+	btVector3 forward = t.getBasis().getColumn(2);
 	
 	
-	
+	glm::vec3 forwardglm;
+
+	forwardglm.x = -forward.getX();
+	forwardglm.y = -forward.getY();
+	forwardglm.z = -forward.getZ();
+
 	//btQuaternion rotation = t.getRotation();
 
+	ent->forward = forwardglm;
 
 	
 
@@ -42,6 +50,8 @@ void Entity_Update(Entity_Struct *ent)
 	newpos.z = origin.getZ();
 
 	ent->position = newpos;
+
+	
 	
 	ent->Model = glm::translate(glm::mat4(), newpos);
 
@@ -73,8 +83,9 @@ void Entity_Draw(Entity_Struct *ent)
 
 	GLuint Color = glGetUniformLocation(graphics3d_get_shader_program(), "incolor");
 
-
+	glm::vec3 colors;
 	//float colors[] = { 1.0,0.0,0.0};
+	/*
 	glm::vec3 colors;
 
 	if (ent->type == "bullet")
@@ -89,8 +100,8 @@ void Entity_Draw(Entity_Struct *ent)
 	{
 		colors = glm::vec3(0.0, 1.0, 0.0);
 	}
-
-	
+	*/
+	colors = ent->color;
 	glUniform3fv(Color, 1, glm::value_ptr(colors));
 
 	ent->mesh.Draw_Mesh();
