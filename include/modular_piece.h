@@ -11,6 +11,10 @@
 #include "mesh.h"
 #include "physics.h"
 
+/**
+*@breif Creates a struct to represent a scene piece
+
+*/
 
 typedef struct
 {
@@ -25,7 +29,11 @@ typedef struct
 }Modular_Struct;
 
 
+/**
+*@breif Draws a scene piece
+*@param Modular_Struct the piece that will be drawn
 
+*/
 
 void Draw_Piece(Modular_Struct* piece);
 

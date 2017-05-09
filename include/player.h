@@ -22,12 +22,15 @@ typedef struct
 
 typedef struct
 {
+	
 
 	Entity_Struct *ent;
 
 	Sword_Struct sword;
 
 	glm::vec3 velocity;
+
+	int gold = 0;
 
 	int health = 100;
 
@@ -53,6 +56,10 @@ typedef struct
 }Player_Struct;
 
 
+
+void Player_Collision(Player_Struct *player, Manager* manager, Physics* physics);
+
+void Player_Regen(Player_Struct *player);
 
 void Player_Sword(Player_Struct *player);
 

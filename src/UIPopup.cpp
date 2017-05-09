@@ -24,7 +24,7 @@
 
 
 
-void drawstats(int health, float exp, int mana, int level, int skillstats, int strength, int speed, int arcane)
+void drawstats(int health, float exp, int mana, int level, int skillstats, int strength, int speed, int arcane, int gold)
 {
 
 	glColor3f(1, 0, 0);
@@ -98,10 +98,57 @@ void drawstats(int health, float exp, int mana, int level, int skillstats, int s
 	for (int i = 0; i < len8; i++) {
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, arcstring[i]);
 	}
-	
+
+	std::string gldstring = "Gold: " + std::to_string(gold);
+	glWindowPos2i(600, 550);
+	int len9 = gldstring.length();
+
+	for (int i = 0; i < len9; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gldstring[i]);
+	}
 
 
 }
+
+void drawwin()
+{
+	glColor3f(0, 1, 0);
+
+	std::string strstring = "YOU WIN Press Q to reset";
+	glWindowPos2i(300, 500);
+	int len6 = strstring.length();
+
+	for (int i = 0; i < len6; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, strstring[i]);
+		//glutStrokeCharacter(GLUT_STROKE_ROMAN, strstring[i]);
+		//glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, strstring[i]);
+	}
+
+
+
+
+}
+
+
+void drawlose()
+{
+
+
+	glColor3f(1, 0, 0);
+
+	std::string strstring = "YOU LOSE Press Q to reset";
+	glWindowPos2i(300, 500);
+	int len6 = strstring.length();
+
+	for (int i = 0; i < len6; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, strstring[i]);
+		//glutStrokeCharacter(GLUT_STROKE_ROMAN, strstring[i]);
+		//glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, strstring[i]);
+	}
+
+
+}
+
 
 void deletestats()
 {

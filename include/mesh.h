@@ -7,8 +7,22 @@
 #include<iostream>
 #include<glm\vec3.hpp>
 #include<glm\vec2.hpp>
-#include<GL\glew.h>
+#include<GL\glew.h>'
 
+
+
+/**
+*@breif A class to hold mesh data
+
+*/
+
+
+
+
+/**
+*@breif Creates a struct for an Iarray
+
+*/
 typedef class Iarray_t
 {
 public:
@@ -19,7 +33,10 @@ public:
 }Iarray;
 
 
+/**
+*@breif Creates a struct for Vertex info
 
+*/
 
 typedef struct
 {
@@ -28,6 +45,10 @@ typedef struct
 	glm::vec2 Texel;
 
 }Vertex;
+/**
+*@breif Creates a struct for face info
+
+*/
 typedef struct
 {
 	Vertex x;
@@ -35,6 +56,10 @@ typedef struct
 	Vertex z;
 
 }Face;
+/**
+*@breif Creates a struct for texture
+
+*/
 typedef struct
 {
 	GLuint id;
@@ -81,11 +106,30 @@ public:
 	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
 	Mesh();
 	~Mesh();
+	/**
+	*@breif Loads obj information 
 
+	*/
 	bool Load_Obj(const char * path);
+	/**
+	*@breif Draws a mesh based of obj info
+
+	*/
 	void Draw_Mesh();
+	/**
+	*@breif Loads a texture
+
+	*/
 	void TextureLoad();
+	/**
+	*@breif SetUps the buffers for the mesh
+
+	*/
 	void SetUp_Buffer();
+	/**
+	*@breif Draws a quad
+
+	*/
 	void Draw_Quad();
 
 };

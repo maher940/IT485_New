@@ -137,7 +137,18 @@ bool SetupScene(const char * path, Physics* physics)
 			 scene.ModularList[i].body = physics->TriRigidBody(scene.ModularList[i].position, 0, scene.ModularList[i].model);
 
 
+			 /*
+			 float width = scene.ModularList[i].model.xdis;
 
+			 float height = scene.ModularList[i].model.ydis;
+
+			 float depth = scene.ModularList[i].model.zdis;
+
+
+
+			 btTransform* transform = physics->CreateTransform(scene.ModularList[i].position);
+
+			 scene.ModularList[i].body = physics->CubeRigidBody(glm::vec3(width, height, depth), transform,1);*/
 
 			 scene.ModularList[i].body->setGravity(btVector3(0, 0, 0));
 

@@ -19,8 +19,11 @@ void main()
 	//gl_Position = position;
 	gl_Position =  VP * Model * vec4(position, 1.0f);
 
-	//fragpos = Model(vec4(position,1.0).xyz);
+	fragnorm = normal;
 
-	//fragnorm = normal;
-	theColor = incolor;
+	
+	fragpos = vec3(Model * vec4(position, 1.0f));
+
+
+	//theColor = incolor;
 }

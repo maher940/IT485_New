@@ -4,6 +4,27 @@
 
 
 
+struct itemcollision : public btCollisionWorld::ContactResultCallback
+{
+
+	//testCallback(Test_Struct* context) : ctext(context) {}
+	itemcollision(Player_Struct* player, Physics* physics, Manager* manager, int* num) : play(player), phy(physics), man(manager), numb(num){}
+
+
+	virtual	btScalar addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1)
+	{
+		play->gold++;
+
+		man->entityList[*numb].timer = 201;
+
+		return 0;
+	}
+
+	int* numb;
+	Player_Struct* play;
+	Physics* phy;
+	Manager* man;
+};
 
 
 void Player_Sword(Player_Struct *player)
@@ -80,11 +101,34 @@ void Player_Pos(Player_Struct *player, glm::vec3 camerapos)
 
 }
 
+void Player_Collision(Player_Struct *player, Manager* manager, Physics* physics)
+{
+	
+
+	for (int i = 0; i < 20; i++)
+	{
+
+		if (manager->entityList[i].type == "coin")
+		{
+			int* j = &manager->entityList[i].entity_num;
+
+
+			itemcollision itcollid(player, physics, manager, j);
+			
+			physics->space->contactPairTest(player->ent->body, manager->entityList[i].body, itcollid);
+
+		}
+
+	}
+
+
+}
+
 void Player_Movement(Player_Struct *player, char key)
 {
 
 	//setAngularFactor(btVector3(0, 1, 0))
-	
+	float speed = 5 + player->speed;
 
 	if (key == 'W')
 	{
@@ -94,7 +138,7 @@ void Player_Movement(Player_Struct *player, char key)
 
 			player->ent->body->getLinearVelocity().getY(),
 
-			-5.0f));
+			-speed));
 
 	}
 	if (key == 'S')
@@ -104,12 +148,12 @@ void Player_Movement(Player_Struct *player, char key)
 
 			player->ent->body->getLinearVelocity().getY(),
 
-			5.0f));
+			speed));
 	}
 	if (key == 'A')
 	{
 		//player->velocity.x = -5;
-		player->ent->body->setLinearVelocity(btVector3(-5.0f,
+		player->ent->body->setLinearVelocity(btVector3(-speed,
 
 			player->ent->body->getLinearVelocity().getY(),
 
@@ -118,7 +162,7 @@ void Player_Movement(Player_Struct *player, char key)
 	if (key == 'D')
 	{
 		//player->velocity.x = 5;
-		player->ent->body->setLinearVelocity(btVector3(5.0f,
+		player->ent->body->setLinearVelocity(btVector3(speed,
 
 			player->ent->body->getLinearVelocity().getY(),
 
@@ -135,20 +179,11 @@ void Player_Movement(Player_Struct *player, char key)
 
 		player->ent->body->setLinearVelocity(btVector3(player->ent->body->getLinearVelocity().getX(),
 
-			5.0f,
+			speed,
 
 			player->ent->body->getLinearVelocity().getZ()));
 	}
-	//btVector3 btvelocity;
-
-	//btvelocity.setX(player->velocity.x);
-	//btvelocity.setY(player->velocity.y);
-	//btvelocity.setZ(player->velocity.z);
-
-
-	//player->ent->body->setLinearVelocity(btvelocity);
-
-	//player->velocity = glm::vec3(0, 0, 0);
+	
 }
 void Player_Shoot(Player_Struct *player, Physics* physics, Manager *manager)
 {
@@ -165,13 +200,9 @@ void Player_Shoot(Player_Struct *player, Physics* physics, Manager *manager)
 
 	btVector3 origin = t.getOrigin();
 
-
 	spawnpos.x = origin.getX();
 	spawnpos.y = origin.getY();
-	spawnpos.z = origin.getZ();
-
-	//spawnpos.z -= 5;
-
+	spawnpos.z = origin.getZ(); 
 
 	spawnpos.x += -forward.getX();
 	spawnpos.y += -forward.getY();
@@ -187,9 +218,9 @@ void Player_Shoot(Player_Struct *player, Physics* physics, Manager *manager)
 		}
 		else
 		{
-
-			slog("Fine added \n");
-			Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\cube.obj", spawnpos, physics, glm::vec3(0,1,0))->body->setLinearVelocity(-forward * 20);
+			player->mana -= 10;
+			//slog("Fine added \n");
+			Entity_New("C:\\Users\\Jacob\\IT485\\models\\My_Model\\cube.obj", spawnpos, physics, glm::vec3(0,1,0), "bullet")->body->setLinearVelocity(-forward * 50);
 			slog("Ent Nums %d \n", manager->numentities);
 			break;
 		}
@@ -197,6 +228,22 @@ void Player_Shoot(Player_Struct *player, Physics* physics, Manager *manager)
 
 
 
+	}
+
+
+
+}
+
+void Player_Regen(Player_Struct *player)
+{
+	if (player->health < player->TotalHealth)
+	{
+		player->health++;
+	}
+
+	if (player->mana < player->TotalMana)
+	{
+		player->mana++;
 	}
 
 
@@ -217,8 +264,6 @@ void Player_Melee(Player_Struct *player, Physics* physics)
 
 	btVector3 origin = t.getOrigin();
 
-
-
 	spawnpos.x = origin.getX();
 	spawnpos.y = origin.getY();
 	spawnpos.z = origin.getZ();
@@ -227,9 +272,6 @@ void Player_Melee(Player_Struct *player, Physics* physics)
 	spawnpos.y += -forward.getY() * 2;
 	spawnpos.z += -forward.getZ() * 2;
 
-	//spawnpos.x += -right.getX();
-	//spawnpos.y += -right.getY();
-	//spawnpos.z += -right.getZ();
 
 	physics->CubeRigidBodyTR(glm::vec3(3, 1, 2), spawnpos, 0, &t.getRotation());
 

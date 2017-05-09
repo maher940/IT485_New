@@ -51,53 +51,7 @@ void Camera::cameraMovement(char key)
 bool firstMouse = true;
 void Camera::cameraRotation(float x, float y, Player_Struct* player)
 {
-	/*
-	if (firstMouse)
-	{
-		lastX = x;
-		lastY = y;
-		firstMouse = false;
-	}
-
-	float xoffset = x - lastX;
-	float yoffset = lastY - y; // Reversed since y-coordinates go from bottom to left
-	lastX = x;
-	lastY = y;
-
-	float sensitivity = 0.05;	// Change this value to your liking
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-
-	yaw += xoffset;
-	pitch += yoffset;
-
-	// Make sure that when pitch is out of bounds, screen doesn't get flipped
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
-
-
-	/*
-	glm::vec3 front;
-	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	front.y = sin(glm::radians(pitch));
-	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	camerafront = glm::normalize(front);
-	*/
-
-
-
-	//glm::vec3 direction(
-		//cos(glm::radians(yaw)) * cos(glm::radians(pitch)),
-		//sin(glm::radians(pitch)),
-		//sin(glm::radians(yaw)) * cos(glm::radians(pitch))
-	//);
-
-	//camerafront = glm::normalize(direction);
-	//SDL_Window *window = getwindow();
 	
-	//camerafront = player->ent->forward;
 }
 
 void Camera::computeMatricesFromInputs(Player_Struct* player)

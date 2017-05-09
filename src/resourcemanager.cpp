@@ -67,7 +67,7 @@ void Entity_Close()
 
 }
 
-Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physics, glm::vec3 color)
+Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physics, glm::vec3 color, std::string type)
 {
 
 	int i;
@@ -114,6 +114,8 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 			manager.entityList[i].forward.z -= 1;
 
+			manager.entityList[i].type = type;
+
 			manager.entityList[i].Model = glm::translate(glm::mat4(), position);
 			manager.entityList[i].color = color;
 			float width;
@@ -126,7 +128,23 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 			depth = manager.entityList[i].mesh.zdis;
 
-			manager.entityList[i].body = physics->CubeRigidBody(glm::vec3(width, height, depth), position, 1);
+			btTransform* transform = physics->CreateTransform(position);
+
+
+
+			if (type == "bullet")
+			{
+
+
+				manager.entityList[i].body = physics->CubeRigidBodyTrig(glm::vec3(width, height, depth), transform, 1);
+
+
+			}
+			else
+			{
+
+				manager.entityList[i].body = physics->CubeRigidBody(glm::vec3(width, height, depth), transform, 1);
+			}
 
 			//manager.entityList[i].body = physics->MeshRigidBody(position, 1, manager.entityList[i].mesh);
 
@@ -136,7 +154,7 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 
 
-
+			/*
 			if (!std::strcmp(path, "C:\\Users\\Jacob\\IT485\\models\\My_Model\\monkey.obj"))
 			{
 				slog("is player \n");
@@ -153,6 +171,7 @@ Entity_Struct* Entity_New(const char * path, glm::vec3 position, Physics* physic
 
 				manager.entityList[i].type = "none";
 			}
+			*/
 			break;
 
 

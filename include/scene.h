@@ -14,10 +14,14 @@
 #include <json.hpp>
 #define maxpieces 100
 
+
 using json = nlohmann::json;
 //std::vector<Vertex> scene_parts;
 
+/**
+*@breif Creates a struct to represent a scene
 
+*/
 
 
 typedef struct
@@ -25,25 +29,39 @@ typedef struct
 	int numpieces;
 
 	json j;
-	//std::vector<Modular_Struct> scene_parts;
 
-	//std::vector<std::string> models;
-
-	//std::vector<glm::vec3> positions;
 
 	Modular_Struct ModularList[maxpieces];
 
 }Scene;
 
+/**
+*@breif returns a scene
 
+*/
 Scene* getscene();
 
+/**
+*@breif ints a scene
+
+*/
 void SceneInit();
+/**
+*@breif closes a scene
+
+*/
 
 void SceneClose();
+/**
+*@breif Sets up a scene based on a json file
 
+*/
 bool SetupScene(const char * path, Physics* physics);
 
+/**
+*@breif Draws a scene
+
+*/
 void DrawScene();
 
 

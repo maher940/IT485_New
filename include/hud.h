@@ -7,6 +7,11 @@
 #include<GL\glew.h>
 #include<glm\vec3.hpp>
 #include <glm\vec2.hpp>
+
+/**
+*@breif Class to create a HUD
+
+*/
 class HUD
 {
 
@@ -18,13 +23,29 @@ public:
 	std::vector<glm::vec2> HUD_UVs;
 	std::vector<unsigned int> HUD_Indices;
 	HUD();
+
+/**
+*@breif Sets up hud points
+
+*/
 void	Set_HUD_Points();
 
+/**
+*@breif Draws the hud
 
+*/
 void 	Draw_HUD();
 
+/**
+*@breif Sets up texture
+
+*/
 void	TextureSetUp();
 
+/**
+*@breif Loads a texture
+
+*/
 void	TextureLoad();
 
 };

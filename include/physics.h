@@ -4,69 +4,15 @@
 
 #include <btBulletDynamicsCommon.h>
 #include <vector>
-#define maxentities 11
+#define maxentities 21
 #include "simple_logger.h"
 #include "mesh.h"
 #include "glm\vec3.hpp"
 
+/**
+*@breif The setup of the physcis world and the rigidbodies
 
-
-typedef struct
-{
-	int points = 0;
-}Test_Struct;
-
-
-struct testCallback : public btCollisionWorld::ContactResultCallback
-{
-
-	/*ContactSensorCallback(btRigidBody& tgtBody , YourContext& context /*, ... )
-	: btCollisionWorld::ContactResultCallback(), body(tgtBody), ctxt(context) { }
-
-	btRigidBody& body; //!< The body the sensor is monitoring
-	YourContext& ctxt; //!< External information for contact processing
-	*/
-
-
-
-	//testCallback(int& context) : btCollisionWorld::ContactResultCallback(), ctext(context) {}
-
-	//int& ctext;
-	testCallback(Test_Struct* context) : ctext(context) {}
-
-	
-	
-
-	virtual	btScalar addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1)
-	{
-
-		//ctext++;
-		//slog("Context %f \n", ctext);
-
-		//ctext += 10;
-		ctext->points += 10;
-		//slog("points %f", ctext->points);
-		return 0;
-	}
-
-	Test_Struct* ctext;
-};
-
-
-
-
-struct CollisionCallback : public btCollisionWorld::ContactResultCallback
-{
-
-	virtual	btScalar addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1)
-	{
-		slog("collision");
-		//hithum++;
-		//slog("%f \n", hithum);
-		return 0;
-	}
-	
-};
+*/
 
 class Physics
 {
@@ -101,35 +47,101 @@ public:
 
 	std::vector<glm::vec3>bodiesPos;
 
-	CollisionCallback callback;
+
 
 
 	
 
 	Physics();
 
+	/**
+	*@breif Steps throught the physics world
+
+	*/
 	void PhysicsStep(float time);
 
+	/**
+	*@breif Returns a transfrom created from a glme::vec3
+
+	*/
+	btTransform* CreateTransform(glm::vec3 position);
+
+	/**
+	*@breif Creates a sphere rigid body
+
+	*/
 	btRigidBody* SphereRigidBody(float radius, glm::vec3 position, float mass);
-	btRigidBody* CubeRigidBody(glm::vec3 size, glm::vec3 position, float mass);
+
+	/**
+	*@breif Creates a cube rigid body
+
+	*/
+	btRigidBody* CubeRigidBody(glm::vec3 size, btTransform* transform, float mass);
+	/**
+	*@breif Creates a cube rigid body that is a trigger
+
+	*/
+
+	btRigidBody* CubeRigidBodyTrig(glm::vec3 size, btTransform* transform, float mass);
+	/**
+	*@breif Creates a cube rigid body that is a trigger and needs a quaterion
+
+	*/
+
 	btRigidBody* CubeRigidBodyTR(glm::vec3 size, glm::vec3 position, float mass, btQuaternion* quat);
+
+	/**
+	*@breif Creates a convex hull shape rigid body
+
+	*/
 	btRigidBody* MeshRigidBody(glm::vec3 position, float mass, Mesh mesh);
+
+	/**
+	*@breif Creates a rigid body based off mesh data
+
+	*/
+
 	btRigidBody* TriRigidBody(glm::vec3 position, float mass, Mesh mesh);
+
+	/**
+	*@breif Creates a plane rigid body
+
+	*/
+
 	btRigidBody* PlaneBody();
 
+	/**
+	*@breif deletes the rigid bodies
+
+	*/
 	void Physics::deleteRigidBody();
 
+	/**
+	*@breif deletes the physcis worl
 
+	*/
 	void Physics::deletePhysicsWorld();
-	
-	void Physics::deleteRigidBodyOne(int i);
+	/**
+	*@breif deletes one rigid body
 
+	*/
+	void Physics::deleteRigidBodyOne(int i);
+	/**
+	*@breif deletes the melee rigid body
+
+	*/
 	void Physics::deleteMelee();
 
+	/**
+	*@breif runs a collision test
 
+	*/
 	void CollisionTest(btRigidBody* body);
 	
+	/**
+	*@breif runs a collision test between two objects
 
+	*/
 
 	void Physics::CollisionTest2(btRigidBody* body1, btRigidBody* body2);
 	

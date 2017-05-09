@@ -8,7 +8,10 @@
 #include<glm\vec3.hpp>
 #include <glm\vec2.hpp>
 
+/**
+*@breif Class for the buttons on the UI
 
+*/
 class Button
 {
 
@@ -20,8 +23,15 @@ public:
 	std::vector<glm::vec3> Button_Verts;
 	std::vector<glm::vec3> Button_UVs;
 	Button();
-	void Button_Setup(glm::vec3 TopRight, glm::vec3 TopLeft, glm::vec3 BotRight, glm::vec3 BotLeft);
+	/**
+	*@breif Sets up the button size
 
+	*/
+	void Button_Setup(glm::vec3 TopRight, glm::vec3 TopLeft, glm::vec3 BotRight, glm::vec3 BotLeft);
+	/**
+	*@breif Draws the button
+
+	*/
 	void Button_Draw();
 
 };

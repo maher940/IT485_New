@@ -12,8 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\include\controls.cpp" />
+    <ClCompile Include="..\include\Source.cpp" />
     <ClCompile Include="..\src\button.cpp" />
     <ClCompile Include="..\src\camera.cpp" />
+    <ClCompile Include="..\src\Debugger.cpp" />
     <ClCompile Include="..\src\enemy.cpp" />
     <ClCompile Include="..\src\entity.cpp" />
     <ClCompile Include="..\src\entityc.cpp" />
@@ -30,7 +32,9 @@
     <ClCompile Include="..\src\simple_logger.c" />
     <ClCompile Include="..\src\testload.cpp" />
     <ClCompile Include="..\src\UIPopup.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="loadobj.cpp" />
+    <ClCompile Include="PickUp.cpp" />
     <ClCompile Include="testmesh.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="vector.cpp" />
@@ -38,6 +42,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\button.h" />
     <ClInclude Include="..\include\controls.h" />
+    <ClInclude Include="..\include\Debugger.h" />
     <ClInclude Include="..\include\enemy.h" />
     <ClInclude Include="..\include\entity.h" />
     <ClInclude Include="..\include\entityc.h" />
@@ -56,8 +61,10 @@
     <ClInclude Include="..\include\testload.h" />
     <ClInclude Include="..\include\UIPopup.h" />
     <ClInclude Include="..\src\camera.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="loadobj.h" />
+    <ClInclude Include="PickUp.h" />
     <ClInclude Include="testmesh.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="vector.h" />

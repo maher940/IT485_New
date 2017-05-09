@@ -11,6 +11,11 @@
 #include <string>
 #include <btBulletDynamicsCommon.h>
 #include "physics.h"
+
+/**
+*@breif The structure that represents entities
+
+*/
 typedef struct
 {
 	
@@ -37,14 +42,34 @@ typedef struct
 
 }Entity_Struct;
 
+/**
+*@breif Thinks for the entity
+
+*/
+
 void Entity_Think(Entity_Struct *ent);
 
-void Entity_Draw(Entity_Struct *ent);
+/**
+*@breif Draws the entity
 
+*/
+
+void Entity_Draw(Entity_Struct *ent);
+/**
+*@breif Updates the entity
+
+*/
 void Entity_Update(Entity_Struct *ent);
+/**
+*@breif gets the entity's position
+
+*/
 
 glm::vec3 Entity_getPos(Entity_Struct *ent);
+/**
+*@breif sets the entity's positon
 
+*/
 void Entity_SetPos(Entity_Struct *ent, glm::vec3 postition);
 
 

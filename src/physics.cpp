@@ -1,5 +1,5 @@
 #include "physics.h"
-
+#include "glm\mat4x4.hpp"
 
 
 Physics::Physics()
@@ -48,6 +48,17 @@ void Physics::PhysicsStep(float time)
 
 }
 
+btTransform* Physics::CreateTransform(glm::vec3 transform)
+{
+	btTransform* t = new btTransform();
+
+	t->setIdentity();
+
+	t->setOrigin(btVector3(transform.x, transform.y, transform.z));
+
+	return t;
+}
+
 btRigidBody* Physics::PlaneBody()
 {
 
@@ -75,15 +86,9 @@ btRigidBody* Physics::PlaneBody()
 }
 
 
-btRigidBody* Physics::CubeRigidBody(glm::vec3 size, glm::vec3 position, float mass)
+btRigidBody* Physics::CubeRigidBody(glm::vec3 size, btTransform* transform, float mass)
 {
-	//slog("We maming a body");
-	btTransform t;
-
-	t.setIdentity();
-
-	t.setOrigin(btVector3(position.x, position.y, position.z));
-
+	
 	btBoxShape* cube = new btBoxShape(btVector3(size.x / 2.0, size.y / 2.0, size.z / 2.0));
 
 	btVector3 inertia(0, 0, 0);
@@ -93,14 +98,16 @@ btRigidBody* Physics::CubeRigidBody(glm::vec3 size, glm::vec3 position, float ma
 		cube->calculateLocalInertia(mass, inertia);
 	}
 
-	btMotionState* motion = new btDefaultMotionState(t);
+	btMotionState* motion = new btDefaultMotionState(*transform);
 
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, cube, inertia);
 
-	btRigidBody* body = new btRigidBody(info);
-	space->addRigidBody(body);
 
-	//bodies.push_back(body);
+	btRigidBody* body = new btRigidBody(info);
+	
+	
+
+	space->addRigidBody(body);
 
 	return body;
 
@@ -144,7 +151,34 @@ btRigidBody* Physics::CubeRigidBodyTR(glm::vec3 size, glm::vec3 position, float 
 
 
 }
+btRigidBody* Physics::CubeRigidBodyTrig(glm::vec3 size, btTransform* transform, float mass)
+{
 
+	btBoxShape* cube = new btBoxShape(btVector3(size.x / 2.0, size.y / 2.0, size.z / 2.0));
+
+	btVector3 inertia(0, 0, 0);
+
+	if (mass != 0.0)
+	{
+		cube->calculateLocalInertia(mass, inertia);
+	}
+
+	btMotionState* motion = new btDefaultMotionState(*transform);
+
+	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, cube, inertia);
+
+
+	btRigidBody* body = new btRigidBody(info);
+
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+	space->addRigidBody(body);
+
+	return body;
+
+
+
+}
 
 btRigidBody* Physics::TriRigidBody(glm::vec3 position, float mass, Mesh mesh)
 {
@@ -160,45 +194,27 @@ btRigidBody* Physics::TriRigidBody(glm::vec3 position, float mass, Mesh mesh)
 	//btBoxShape* cube = new btBoxShape(btVector3(size.x / 2.0, size.y / 2.0, size.z / 2.0));
 
 	btTriangleMesh *mTriMesh = new btTriangleMesh();
-
-
 	int numtri = mesh.indices.size() / 3;
-
-
 	for (int i = 0; i < numtri; i++)
 	{
-
 		int j = i * 3;
-
 		btVector3 tri1;
-
 		int tr1 = mesh.indices[j];
-		
-
 		tri1.setX(mesh.vertices2[tr1].Position.x);
 		tri1.setY(mesh.vertices2[tr1].Position.y);
 		tri1.setZ(mesh.vertices2[tr1].Position.z);
-
 		btVector3 tri2;
-
 		int tr2 = mesh.indices[j +1];
-
 		tri2.setX(mesh.vertices2[tr2].Position.x);
 		tri2.setY(mesh.vertices2[tr2].Position.y);
 		tri2.setZ(mesh.vertices2[tr2].Position.z);
-
 		btVector3 tri3;
-
 		int tr3 = mesh.indices[j+2];
-
 		tri3.setX(mesh.vertices2[tr3].Position.x);
 		tri3.setY(mesh.vertices2[tr3].Position.y);
 		tri3.setZ(mesh.vertices2[tr3].Position.z);
-
 		mTriMesh->addTriangle(tri1, tri2, tri3);
 	}
-
-
 	btCollisionShape *cube = new btBvhTriangleMeshShape(mTriMesh, true);
 
 
@@ -238,22 +254,10 @@ btRigidBody* Physics::MeshRigidBody(glm::vec3 position, float mass, Mesh mesh)
 	//btBoxShape* cube = new btBoxShape(btVector3(size.x / 2.0, size.y / 2.0, size.z / 2.0));
 
 	btConvexHullShape* cube = new btConvexHullShape();
-	//mesh.
-
 	for (int i = 0; i < mesh.indices.size(); i++)
 	{
 		btVector3 position;
-
-		//mesh.indices[i];
-
 		unsigned int j = mesh.indices[i];
-
-		//float w = mesh.vertices2[j].Position.x;
-
-		//position.x = w;
-		// position.x = mesh.vertices2[j].Position.x;
-		//position.y = mesh.vertices2[j].Position.y;
-		//position.z = mesh.vertices2[j].Position.z;
 
 		position.setX(mesh.vertices2[j].Position.x);
 		position.setY(mesh.vertices2[j].Position.y);
@@ -261,7 +265,6 @@ btRigidBody* Physics::MeshRigidBody(glm::vec3 position, float mass, Mesh mesh)
 		cube->addPoint(position);
 
 	}
-
 	btVector3 inertia(0, 0, 0);
 
 	if (mass != 0.0)
